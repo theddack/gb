@@ -84,7 +84,7 @@ $sub_menu_info = '';
                         </td>
                         <td>
                             <label for="me_link_<?php echo $i; ?>" class="sound_only">링크<strong class="sound_only"> 필수</strong></label>
-                            <input type="text" name="me_link[]" value="<?php echo G5_BBS_URL.'/'.$row['me_link'] ?>" id="me_link_<?php echo $i; ?>" required class="required tbl_input full_input">
+                            <input type="text" name="me_link[]" value="<?php echo $row['me_link'] ?>" id="me_link_<?php echo $i; ?>" required class="required tbl_input full_input">
                         </td>
                         <td class="td_mng">
                             <label for="me_target_<?php echo $i; ?>" class="sound_only">새창</label>
