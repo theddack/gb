@@ -21,199 +21,209 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
 ?>
 
 <!-- 상단 시작 { -->
-<div id="hd">
-    <h1 id="hd_h1"><?php echo $g5['title'] ?></h1>
-    <div id="skip_to_container"><a href="#container">본문 바로가기</a></div>
-
-    <?php
-    if(defined('_INDEX_')) { // index에서만 실행
-        include G5_BBS_PATH.'/newwin.inc.php'; // 팝업레이어
-    }
-    ?>
-    <div id="tnb">
-    	<div class="inner">
-            <?php if(G5_COMMUNITY_USE) { ?>
-    		<ul id="hd_define">
-    			<li class="active"><a href="<?php echo G5_URL ?>/">커뮤니티</a></li>
-                <?php if (defined('G5_USE_SHOP') && G5_USE_SHOP) { ?>
-    			<li><a href="<?php echo G5_SHOP_URL ?>/">쇼핑몰</a></li>
-                <?php } ?>
-    		</ul>
-            <?php } ?>
-			<ul id="hd_qnb">
-	            <li><a href="<?php echo G5_BBS_URL ?>/faq.php">FAQ</a></li>
-	            <li><a href="<?php echo G5_BBS_URL ?>/qalist.php">Q&A</a></li>
-	            <li><a href="<?php echo G5_BBS_URL ?>/new.php">새글</a></li>
-	            <li><a href="<?php echo G5_BBS_URL ?>/current_connect.php" class="visit">접속자<strong class="visit-num"><?php echo connect('theme/basic'); // 현재 접속자수, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정  ?></strong></a></li>
-	        </ul>
-		</div>
-    </div>
-    <div id="hd_wrapper">
-
-        <div id="logo">
-            <a href="<?php echo G5_URL ?>"><img src="<?php echo G5_IMG_URL ?>/logo.png" alt="<?php echo $config['cf_title']; ?>"></a>
-        </div>
-    
-        <div class="hd_sch_wr">
-            <fieldset id="hd_sch">
-                <legend>사이트 내 전체검색</legend>
-                <form name="fsearchbox" method="get" action="<?php echo G5_BBS_URL ?>/search.php" onsubmit="return fsearchbox_submit(this);">
-                <input type="hidden" name="sfl" value="wr_subject||wr_content">
-                <input type="hidden" name="sop" value="and">
-                <label for="sch_stx" class="sound_only">검색어 필수</label>
-                <input type="text" name="stx" id="sch_stx" maxlength="20" placeholder="검색어를 입력해주세요">
-                <button type="submit" id="sch_submit" value="검색"><i class="fa fa-search" aria-hidden="true"></i><span class="sound_only">검색</span></button>
-                </form>
-
-                <script>
-                function fsearchbox_submit(f)
-                {
-                    var stx = f.stx.value.trim();
-                    if (stx.length < 2) {
-                        alert("검색어는 두글자 이상 입력하십시오.");
-                        f.stx.select();
-                        f.stx.focus();
-                        return false;
-                    }
-
-                    // 검색에 많은 부하가 걸리는 경우 이 주석을 제거하세요.
-                    var cnt = 0;
-                    for (var i = 0; i < stx.length; i++) {
-                        if (stx.charAt(i) == ' ')
-                            cnt++;
-                    }
-
-                    if (cnt > 1) {
-                        alert("빠른 검색을 위하여 검색어에 공백은 한개만 입력할 수 있습니다.");
-                        f.stx.select();
-                        f.stx.focus();
-                        return false;
-                    }
-                    f.stx.value = stx;
-
-                    return true;
-                }
-                </script>
-
-            </fieldset>
-                
-            <?php echo popular('theme/basic'); // 인기검색어, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정  ?>
-        </div>
-        <ul class="hd_login">        
-            <?php if ($is_member) {  ?>
-            <li><a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=<?php echo G5_BBS_URL ?>/register_form.php">정보수정</a></li>
-            <li><a href="<?php echo G5_BBS_URL ?>/logout.php">로그아웃</a></li>
-            <?php if ($is_admin) {  ?>
-            <li class="tnb_admin"><a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>">관리자</a></li>
-            <?php }  ?>
-            <?php } else {  ?>
-            <li><a href="<?php echo G5_BBS_URL ?>/register.php">회원가입</a></li>
-            <li><a href="<?php echo G5_BBS_URL ?>/login.php">로그인</a></li>
-            <?php }  ?>
-
-        </ul>
-    </div>
-    
-    <nav id="gnb">
-        <h2>메인메뉴</h2>
-        <div class="gnb_wrap">
-            <ul id="gnb_1dul">
-                <li class="gnb_1dli gnb_mnal"><button type="button" class="gnb_menu_btn" title="전체메뉴"><i class="fa fa-bars" aria-hidden="true"></i><span class="sound_only">전체메뉴열기</span></button></li>
-                <?php
-				$menu_datas = get_menu_db(0, true);
-				$gnb_zindex = 999; // gnb_1dli z-index 값 설정용
-                $i = 0;
-                foreach( $menu_datas as $row ){
-                    if( empty($row) ) continue;
-                    $add_class = (isset($row['sub']) && $row['sub']) ? 'gnb_al_li_plus' : '';
-                ?>
-                <li class="gnb_1dli <?php echo $add_class; ?>" style="z-index:<?php echo $gnb_zindex--; ?>">
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_1da"><?php echo $row['me_name'] ?></a>
-                    <?php
-                    $k = 0;
-                    foreach( (array) $row['sub'] as $row2 ){
-
-                        if( empty($row2) ) continue; 
-
-                        if($k == 0)
-                            echo '<span class="bg">하위분류</span><div class="gnb_2dul"><ul class="gnb_2dul_box">'.PHP_EOL;
-                    ?>
-                        <li class="gnb_2dli"><a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>" class="gnb_2da"><?php echo $row2['me_name'] ?></a></li>
-                    <?php
-                    $k++;
-                    }   //end foreach $row2
-
-                    if($k > 0)
-                        echo '</ul></div>'.PHP_EOL;
-                    ?>
-                </li>
-                <?php
-                $i++;
-                }   //end foreach $row
-
-                if ($i == 0) {  ?>
-                    <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
-                <?php } ?>
-            </ul>
-            <div id="gnb_all">
-                <h2>전체메뉴</h2>
-                <ul class="gnb_al_ul">
-                    <?php
-                    
-                    $i = 0;
-                    foreach( $menu_datas as $row ){
-                    ?>
-                    <li class="gnb_al_li">
-                        <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_al_a"><?php echo $row['me_name'] ?></a>
-                        <?php
-                        $k = 0;
-                        foreach( (array) $row['sub'] as $row2 ){
-                            if($k == 0)
-                                echo '<ul>'.PHP_EOL;
-                        ?>
-                            <li><a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>"><?php echo $row2['me_name'] ?></a></li>
-                        <?php
-                        $k++;
-                        }   //end foreach $row2
-
-                        if($k > 0)
-                            echo '</ul>'.PHP_EOL;
-                        ?>
-                    </li>
-                    <?php
-                    $i++;
-                    }   //end foreach $row
-
-                    if ($i == 0) {  ?>
-                        <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <br><a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
-                    <?php } ?>
-                </ul>
-                <button type="button" class="gnb_close_btn"><i class="fa fa-times" aria-hidden="true"></i></button>
+<div class="wrap">
+    <style>
+        .notice_popup {z-index: 1001; position: fixed; left: 50%; transform: translateX(-50%); top: 22%;}
+    </style>
+    <header id="headerAreaPc">
+        <div class="header_inner">
+            <div class="header_inner_top">
+                <div class="event_box">
+                    <ul class="login_box">
+                        <li><a href="https://liting.co.kr/bbs/login.php">로그인</a></li>
+                        <li><a href="https://liting.co.kr/bbs/register_form.php">회원가입</a></li>
+                    </ul>
+                </div>
             </div>
-            <div id="gnb_all_bg"></div>
+            <div class="header_inner_bottom">
+                <h1>
+                    <a class="logo" href="/" style="background: lightgrey;">리팅 로고</a>
+                </h1>
+                <nav id="gnb">
+                    <h2 class="hidden">네비게이션영역</h2>
+                    <div class="depth_first">
+                        <h3><a href="/bbs/content.php?co_id=01_01&me_code=1010" target="_self" >리프팅하면리팅</a></h3>
+                        <h3><a href="/bbs/content.php?co_id=02_15&me_code=20f0" target="_self" >수술리프팅</a></h3>
+                        <h3><a href="/bbs/content.php?co_id=03_01&me_code=3010" target="_self" >쁘띠센터</a></h3>
+                        <h3><a href="/bbs/content.php?co_id=04_01&me_code=4010" target="_self" >리프팅 부스터</a></h3>
+                        <h3><a href="/bbs/content.php?co_id=05_01&me_code=5010" target="_self" >남자리프팅</a></h3>
+                        <h3><a href="/bbs/content.php?co_id=06_01&me_code=6010" target="_self" >병원소개</a></h3>
+                        <h3><a href="/bbs/board.php?bo_table=media&amp;me_code=7010&me_code=7010" target="_self" >커뮤니티</a></h3>
+                    </div>
+                    <ul class="dropdown_menu">
+                        <li>
+                            <h3>리프팅하면리팅</h3>
+                            <a href="/bbs/content.php?co_id=01_01&me_code=1010" target="_self">
+                                <span>리프팅,왜 리팅일까?</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=01_02&me_code=1020" target="_self">
+                                <span>리프팅의 필요성</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>수술리프팅</h3>
+                            <a href="/bbs/content.php?co_id=02_15&me_code=20f0" target="_self">
+                                <span>에르믹스 리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_09&me_code=2090" target="_self">
+                                <span>안면거상</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_01&me_code=2010" target="_self">
+                                <span>미니리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_02&me_code=2020" target="_self">
+                                <span>커스텀미니리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_03&me_code=2030" target="_self">
+                                <span>스마일미니리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_11&me_code=20b0" target="_self">
+                                <span>롱라스팅리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_04&me_code=2040" target="_self">
+                                <span>브이넥(VN)리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_05&me_code=2050" target="_self">
+                                <span>이마리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_06&me_code=2060" target="_self">
+                                <span>스마일거상</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_07&me_code=2070" target="_self">
+                                <span>리팅시그니처리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=02_10&me_code=20a0" target="_self">
+                                <span>처진눈리프팅</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>쁘띠센터</h3>
+                            <a href="/bbs/content.php?co_id=03_01&me_code=3010" target="_self">
+                                <span>쁘띠센터 소개</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_03&me_code=3030" target="_self">
+                                <span>D-DAY!디데이리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_04&me_code=3040" target="_self">
+                                <span>펄샤인&샤이닝 리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_05&me_code=3050" target="_self">
+                                <span>리팅 부스터</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_12&me_code=30c0" target="_self">
+                                <span>초음파 얼굴지방흡입</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_06&me_code=3060" target="_self">
+                                <span>확실한 실리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_07&me_code=3070" target="_self">
+                                <span>레이저 거상 버츄RF</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_13&me_code=30d0" target="_self">
+                                <span>온다리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_08&me_code=3080" target="_self">
+                                <span>레이저리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_09&me_code=3090" target="_self">
+                                <span>베네핏부스터</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=03_11&me_code=30b0" target="_self">
+                                <span>스킨케어</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>리프팅 부스터</h3>
+                            <a href="/bbs/content.php?co_id=04_01&me_code=4010" target="_self">
+                                <span>페이스 지방흡입</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=04_02&me_code=4020" target="_self">
+                                <span>페이스 지방이식</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>남자리프팅</h3>
+                            <a href="/bbs/content.php?co_id=05_01&me_code=5010" target="_self">
+                                <span>리프팅수술</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=05_02&me_code=5020" target="_self">
+                                <span>실리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=05_03&me_code=5030" target="_self">
+                                <span>레이저리프팅</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=05_04&me_code=5040" target="_self">
+                                <span>리프팅부스터</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>병원소개</h3>
+                            <a href="/bbs/content.php?co_id=06_01&me_code=6010" target="_self">
+                                <span>리팅비전</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=06_02&me_code=6020" target="_self">
+                                <span>대표원장 스토리</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=06_03&me_code=6030" target="_self">
+                                <span>안면재건술이란</span>
+                            </a>
+                            <a href="/bbs/board.php?bo_table=doctor&me_code=6040" target="_self">
+                                <span>의료진 소개</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=06_04&me_code=6050" target="_self">
+                                <span>둘러보기</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=06_05&me_code=6060" target="_self">
+                                <span>오시는 길</span>
+                            </a>
+                        </li>
+                        <li>
+                            <h3>커뮤니티</h3>
+                            <a href="/bbs/board.php?bo_table=media&amp;me_code=7010&me_code=7010" target="_self">
+                                <span>리팅TV</span>
+                            </a>
+                            <a href="/bbs/board.php?bo_table=compare&amp;me_code=7020&me_code=7020" target="_self">
+                                <span>리얼포토후기</span>
+                            </a>
+                            <a href="/bbs/board.php?bo_table=review&amp;me_code=7030&me_code=7030" target="_self">
+                                <span>고객감동후기</span>
+                            </a>
+                            <a href="/bbs/board.php?bo_table=star&amp;me_code=7040&me_code=7040" target="_self">
+                                <span>with 스타</span>
+                            </a>
+                            <a href="/bbs/board.php?bo_table=event&amp;me_code=7050&me_code=7050" target="_self">
+                                <span>이벤트</span>
+                            </a>
+                            <a href="/bbs/content.php?co_id=07_01&me_code=7070" target="_self">
+                                <span>바로예약</span>
+                            </a>
+                            <a href="/bbs/write.php?bo_table=realmodel&me_code=7060" target="_self">
+                                <span>리얼모델 모집</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="right_menu">
+                    <div class="select_branch">
+                        <a href="javascript:;"><span>서울점</span></a>
+                        <ul class="branches">
+                            <li class="on"><a href="https://liting.co.kr"><span>서울점</span></a></li>
+                            <li class=""><a href="https://seomyeon.liting.co.kr"><span>부산점</span></a></li>
+                            <li class=""><a href="https://daegu.liting.co.kr"><span>대구점</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="select_nation">
+                        <a href="javascript:;"><img src="/theme/theme01/common/images/icon_global.png" alt="South Korea"><span>KR</span></a>
+                        <ul class="dropdown_menu" style="display: none;">
+                            <li class="on"><a href="/"><img src="/theme/theme01/common/images/icon_southkorea.png" alt="South Korea"><span>KR</span></a></li>
+                            <li><a title="새창으로 열기" target="_blank" href="https://en.liting.co.kr/"><img src="/theme/theme01/common/images/icon_unitedstates.png" alt="United States"><span>EN</span></a></li>
+                            <li><a title="새창으로 열기" target="_blank" href="https://ch.liting.co.kr/"><img src="/theme/theme01/common/images/icon_china.png" alt="China"><span>CN</span></a></li>
+                            <li><a title="새창으로 열기" target="_blank" href="https://jp.liting.co.kr/"><img src="/theme/theme01/common/images/icon_japan.png" alt="Japan"><span>JP</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </nav>
-    <script>
-    
-    $(function(){
-        $(".gnb_menu_btn").click(function(){
-            $("#gnb_all, #gnb_all_bg").show();
-        });
-        $(".gnb_close_btn, #gnb_all_bg").click(function(){
-            $("#gnb_all, #gnb_all_bg").hide();
-        });
-    });
+    </header>
 
-    </script>
-</div>
 <!-- } 상단 끝 -->
-
-
-<hr>
-
-<!-- 콘텐츠 시작 { -->
-<div id="wrapper">
-    <div id="container_wr">
-   
-    <div id="container">
-        <?php if (!defined("_INDEX_")) { ?><h2 id="container_title"><span title="<?php echo get_text($g5['title']); ?>"><?php echo get_head_title($g5['title']); ?></span></h2><?php }

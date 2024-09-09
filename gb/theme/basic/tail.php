@@ -11,66 +11,132 @@ if(G5_COMMUNITY_USE === false) {
     return;
 }
 ?>
-
-    </div>
-    <div id="aside">
-        <?php echo outlogin('theme/basic'); // 외부 로그인, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
-        <?php echo poll('theme/basic'); // 설문조사, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
-    </div>
-</div>
-
-</div>
-<!-- } 콘텐츠 끝 -->
-
-<hr>
-
 <!-- 하단 시작 { -->
-<div id="ft">
+    <footer id="footerArea">
+        <div class="footer_inner">
+            <div class="footer_top">
+                <div class="footer_address">
+                    <!-- <img class="footer_logo" src="///common/images/logo.png" alt="리팅성형외과 로고"> -->
+                    <p class="footer_title">CS CENTER</p>
+                    <div class="btn_tel"><a href="tel:1899-9717">1899-9717</a></div>
+                </div>
+                <div class="footer_schedule">
+                    <p class="footer_title">진료시간</p>
+                    <ul>
+                        <li><span class="schedule_week">월 수 목</span><span class="schedule_time">AM 10:00 - PM 7:00</span></li>
+                        <!-- <li><span class="schedule_week"></span><span class="schedule_time"></span></li> -->
+                        <li><span class="schedule_week">화<span style='display: inline-block; width: 1.4em;'></span>금</span><span class="schedule_time">AM 10:00 - PM 9:00 <span style='display: inline-block; font-size: .9em;'>(야간진료)</span></span></li>
+                        <li><span class="schedule_week">토 요 일</span><span class="schedule_time">AM 10:00 - PM 7:00</span></li>
+                        <li><span class="schedule_week">일요일 휴무</span><span class="schedule_time"></span></li>
+                        <li><span class="schedule_week"></span><span class="schedule_time"></span></li>
+                    </ul>
+                </div>
+                <div class="footer_map">
+                    <p class="footer_title">오시는 길</p>
+                    <a href="https://naver.me/xaPgC2Cb" class="btn_map_naver" title="새창으로 열기" target="_blank"><i class="hidden">네이버맵</i>
+                        <p>서울 강남구 도산대로 119 K타워 7층 <span class="icon_box"></span></p>
+                        <p>3호선 신사역 8번출구 75M</p>
+                    </a>
+                </div>
+                <div class="footer_sns">
+                    <p class="footer_title">SNS</p>
+                    <ul>
+                        <li>
+                            <a href="https://pf.kakao.com/_xfxmiDu" class="bottom_btn_kakao trking" target="_blank" title="새 창에서 열기">
+                                <span class="icon_box" style="background-image: url(/theme/theme01/common/images/icon_footer_kakao.png);"></span>KakaoTalk
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/liting_psps/" class="bottom_btn_instar trking" target="_blank" title="새 창에서 열기">
+                                <span class="icon_box" style="background-image: url(/theme/theme01/common/images/icon_footer_instagram.png);"></span>Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/channel/UC1xWD4jMLNtRjrXPtr468mA" class="bottom_btn_youtube trking" target="_blank" title="새 창에서 열기">
+                                <span class="icon_box" style="background-image: url(/theme/theme01/common/images/icon_footer_youtube.png);"></span>Youtube
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.naver.com/night140160" class="bottom_btn_blog trking" target="_blank" title="새 창에서 열기">
+                                <span class="icon_box" style="background-image: url(/theme/theme01/common/images/icon_footer_blog.png);"></span>Blog
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-    <div id="ft_wr">
-        <div id="ft_link" class="ft_cnt">
-            <a href="<?php echo get_pretty_url('content', 'company'); ?>">회사소개</a>
-            <a href="<?php echo get_pretty_url('content', 'privacy'); ?>">개인정보처리방침</a>
-            <a href="<?php echo get_pretty_url('content', 'provision'); ?>">서비스이용약관</a>
-            <a href="<?php echo get_device_change_url(); ?>">모바일버전</a>
+            <div class="footer_bottom">
+                <div class="footer_bottom_left">
+                    <ul class="btn_privacy">
+                        <li><a href="/bbs/content.php?co_id=policy2">개인정보취급방침</a></li>
+                        <li><a href="/bbs/content.php?co_id=policy">이용약관</a></li>
+                        <!-- <li><a href="/bbs/content.php?co_id=policy">법적고지</a></li> -->
+                        <li><a href="/bbs/content.php?co_id=nonbenefit">비급여 진료수가</a></li>
+                        <li><a href="/bbs/content.php?co_id=06_01&me_code=6010">병원소개</a></li>
+                    </ul>
+                    <p class="main_info">
+                        <span>사업자등록번호 : 207-11-91224</span>
+                        <span>대표자명: 이성준</span>
+                        <span>개인정보보호책임자 : 이성준</span>
+                    </p>
+                    <p class="copy_text">COPYRIGHT &copy; LITING PLASTIC SURGERY. All rights reserved.</p>
+                </div>
+                <div class="family">
+                    <a class="arrow" href="#">Family Site</a>
+                    <ul class="aList">
+                        <li><a href="https://daeatdiet.com/" target="_blank" title="새 창에서 열기">다이트 한의원</a></li>
+                        <li><a href="https://implan.co.kr/" target="_blank" title="새 창에서 열기">플란치과</a></li>
+                        <li><a href="https://wedaeat.com/" target="_blank" title="새 창에서 열기">(주)다이트</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quick">
+                <ul>
+                    <li>
+                        <a class="btn_quick call" href="tel:1899-9717">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_call.png);"></span>
+                            <p>1899-9717</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn_quick" href="https://pf.kakao.com/_xfxmiDu" title="새 창으로 열기" target="_blank">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_kakao.png);"></span>
+                            <p>빠른상담</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn_quick" href="/bbs/board.php?bo_table=compare&me_code=7020&me_code=7020">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_photo.png);"></span>
+                            <p>전후사진</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn_quick reservation" href="/bbs/content.php?co_id=07_01&me_code=7070">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_calender.png);"></span>
+                            <p>바로예약</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="topMove pc_ver" href="#">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_top.png);"></span>
+                            <p>TOP</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="topMove" class="mo_ver">
+                <ul>
+                    <li>
+                        <a class="topMove" href="#">
+                            <span style="background-image: url(/theme/theme01/common/images/quick_top.png);"></span>
+                            <p>TOP</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div id="ft_company" class="ft_cnt">
-        	<h2>사이트 정보</h2>
-	        <p class="ft_info">
-	        	회사명 : 회사명 / 대표 : 대표자명<br>
-				주소  : OO도 OO시 OO구 OO동 123-45<br>
-				사업자 등록번호  : 123-45-67890<br>
-				전화 :  02-123-4567  팩스  : 02-123-4568<br>
-				통신판매업신고번호 :  제 OO구 - 123호<br>
-				개인정보관리책임자 :  정보책임자명<br>
-			</p>
-	    </div>
-        <?php
-        //공지사항
-        // 이 함수가 바로 최신글을 추출하는 역할을 합니다.
-        // 사용방법 : latest(스킨, 게시판아이디, 출력라인, 글자수);
-        // 테마의 스킨을 사용하려면 theme/basic 과 같이 지정
-        echo latest('theme/notice', 'notice', 4, 13);
-        ?>
-        
-		<?php echo visit('theme/basic'); // 접속자집계, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
-	</div>      
-        <!-- <div id="ft_catch"><img src="<?php echo G5_IMG_URL; ?>/ft_logo.png" alt="<?php echo G5_VERSION ?>"></div> -->
-        <div id="ft_copy">Copyright &copy; <b>소유하신 도메인.</b> All rights reserved.</div>
-    
-    
-    <button type="button" id="top_btn">
-    	<i class="fa fa-arrow-up" aria-hidden="true"></i><span class="sound_only">상단으로</span>
-    </button>
-    <script>
-    $(function() {
-        $("#top_btn").on("click", function() {
-            $("html, body").animate({scrollTop:0}, '500');
-            return false;
-        });
-    });
-    </script>
-</div>
+    </footer>
 
 <?php
 if(G5_DEVICE_BUTTON_DISPLAY && !G5_IS_MOBILE) { ?>
@@ -83,6 +149,7 @@ if ($config['cf_analytics']) {
 ?>
 
 <!-- } 하단 끝 -->
+</div>
 
 <script>
 $(function() {
