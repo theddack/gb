@@ -18,7 +18,7 @@ require_once './admin.head.php';
 </div>
 
 <div class="btn_fixed_top ">
-    <a href="./company_browse_insert.php" class="btn btn_01">등록</a>
+    <a href="./center_browse_form.php" class="btn btn_01">등록</a>
 </div>
 
 <div class="tbl_head01 tbl_wrap">
