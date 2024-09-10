@@ -2,7 +2,7 @@
 $sub_menu = "300510";
 include_once('./_common.php');
 include_once(G5_EDITOR_LIB);
-auth_check_menu($auth, $sub_menu, "r");
+auth_check_menu($auth, $sub_menu, "w");
 
 
 
@@ -24,11 +24,11 @@ if (!is_dir($upload_dir)) {
 
 
 if(!$idx) {
-        $sql = "INSERT INTO center_browse (center, center_contents, writer_user)
+        $sql = "INSERT INTO center_browse (center, center_contents, user_id)
                 VALUES ('". $center ."', '". $center_contents ."', '". $user_id ."')";
         if (sql_query($sql)) {
         // 방금 삽입한 데이터의 idx 가져오기
-                $sql2 = "SELECT idx FROM center_browse WHERE center ='". $center ."' AND writer_user='". $user_id ."'";
+                $sql2 = "SELECT idx FROM center_browse WHERE center ='". $center ."' AND user_id='". $user_id ."'";
                 $result = sql_query($sql2);
                 $row = sql_fetch_array($result);  // 여기서 idx 값을 가져옴
                 if($row){
@@ -50,6 +50,7 @@ if(!$idx) {
                                         sql_query($sql3);
                                 }
                         }
+                        
                 }
 
         }

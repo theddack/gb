@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 /*******************************************************************************
 ** 공통 변수, 상수, 코드
 *******************************************************************************/
@@ -30,6 +34,7 @@ for ($i=0; $i<$ext_cnt; $i++) {
 //==========================================================================================================================
 
 
+
 function g5_path()
 {
     $chroot = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], dirname(__FILE__))); 
@@ -54,6 +59,12 @@ function g5_path()
 $g5_path = g5_path();
 
 include_once($g5_path['path'].'/config.php');   // 설정 파일
+
+//================ DB APi
+
+include_once($g5_path['path'].'/api/Config_api.php');
+//===============
+
 
 unset($g5_path);
 
@@ -151,6 +162,7 @@ include_once(G5_LIB_PATH.'/hook.lib.php');    // hook 함수 파일
 include_once(G5_LIB_PATH.'/get_data.lib.php');    // 데이타 가져오는 함수 모음
 include_once(G5_LIB_PATH.'/cache.lib.php');     // cache 함수 및 object cache class 모음
 include_once(G5_LIB_PATH.'/uri.lib.php');    // URL 함수 파일
+
 
 $g5_object = new G5_object_cache();
 
