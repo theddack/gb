@@ -28,12 +28,26 @@ class Centerbrowse extends MySQL {
         return $rtn;
     }
 
-    public function center_list () {
+    public function center_list ($idx) {
+        if ($idx){
+            $where = " WHERE idx ='". $idx . "'";
+        }
+
         $sql = "SELECT idx, center, center_contents, update_user, update_date, user_id, reg_date
-                FROM " . $this->table_name;
+                FROM " . $this->table_name . $where;
         //echo $sql; 
 
         return $this->sql_while_array($sql);
+    }
+
+    public function center_list_image($data) {
+
+        $sql = "SELECT idx, center_idx, center, image_src, image_name, image_id, reg_date
+                FROM center_browse_image WHERE center_idx= '" . $data . "'
+        ";
+        //echo $sql; 
+        return $this->sql_while_array($sql);
+
     }
     
 

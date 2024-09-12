@@ -8,7 +8,7 @@ $g5['title'] = '둘러보기';
 require_once './admin.head.php';
 
 $center_info = new Centerbrowse();
-$center_list = $center_info->center_list();
+$center_list = $center_info->center_list($idx);
 $center_total = $center_info->set_total_cnt();
 
 ?>
@@ -56,7 +56,7 @@ $center_total = $center_info->set_total_cnt();
                 <th scope="col"><?=$row['user_id']?></th>  
                 <th scope="col"><?=$row['reg_date']?></th>  
                 <th scope="col">
-                    <a href="./center_browse_form.php" class="btn btn_01">수정</a>
+                    <a href="./center_browse_form.php?idx=<?=$row['idx']?>" class="btn btn_01">수정</a>
                     <a href="./center_browse_form.php" class="btn btn_01">삭제</a>
                 </th>
         </tr>           

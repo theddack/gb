@@ -3,10 +3,30 @@ $sub_menu = "300510";
 require_once './_common.php';
 
 auth_check_menu($auth, $sub_menu, 'w');
-
+$idx = $_GET['idx'];
 $g5['title'] = '등록하기';
 require_once './admin.head.php';
+
+$center_info = new Centerbrowse();
+$center_list = $center_info->center_list($idx);
+$center_list_image = $center_info->center_list_image($idx);
+
+$center_value = $center_list[0]['center'];
+$center_contents = $center_list[0]['center_contents'];
 $token = get_token();
+
+// massage 설정을 삼항 연산자로 변경
+$massage = $idx ? "수정" : "등록";
+
+// center_value와 관련된 라디오 버튼 체크 상태 설정을 배열과 삼항 연산자를 활용하여 변경
+$center_values = ['seoul', 'busan', 'daegu'];
+$checked = array_fill_keys($center_values, '');
+
+if (in_array($center_value, $center_values)) {
+    $checked[$center_value] = 'checked';
+}
+
+var_dump($center_list);
 ?>
 <style>
 #preview_container {
@@ -30,7 +50,7 @@ $token = get_token();
 </style>
 <div id="menu_frm" class="new_win">
     <form name="center_form" id="center_form" class="new_win_con" enctype="multipart/form-data" method="POST" action="./center_browse_api.php">
-        <input type="hidden" id="idx" name="idx" value="">
+        <input type="hidden" id="idx" name="idx" value="<?=$idx?>">
         <div class="new_win_desc">
             <table border="1" style="width: 100%; table-layout: auto;">
                 <thead>
@@ -55,19 +75,20 @@ $token = get_token();
                     <tr>
                         <td>지점 정보 :     
                             <label>
-                                서울 <input type="radio" name="center" id="center" value="seoul"> 
+                                <input type="radio" name="center" id="center" value="seoul" <?=$checked['seoul']?>>서울 &nbsp;
                             </label>
                             <label>
-                                부산 <input type="radio" name="center" id="center" value="busan"> 
+                                <input type="radio" name="center" id="center" value="busan" <?=$checked['busan']?>>부산 &nbsp;
                             </label> 
                             <label>
-                                대구 <input type="radio" name="center" id="center" value="daegu"> 
+                                <input type="radio" name="center" id="center" value="daegu" <?=$checked['daegu']?>>대구 &nbsp;
                             </label>                                                       
                         </td>
                     </tr>
                     <tr>
                         <td>내용 정보
                             <textarea id="center_contents" name="center_contents" >
+                            <? echo isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?>
                             </textarea>
                         </td>
                     </tr>
@@ -75,7 +96,7 @@ $token = get_token();
             </table>
         </div>
         <div class="btn_fixed_top ">
-            <button class="btn btn_01" type="submit">등록</button>
+            <button class="btn btn_01" type="submit" ><?=$massage ?></button>
         </div>
     </form>
 </div>
