@@ -7,12 +7,13 @@ $idx = $_GET['idx'];
 $g5['title'] = '등록하기';
 require_once './admin.head.php';
 
-$center_info = new Centerbrowse();
-$center_list = $center_info->center_list($idx);
-$center_list_image = $center_info->center_list_image($idx);
-
-$center_value = $center_list[0]['center'];
-$center_contents = $center_list[0]['center_contents'];
+if($idx){
+    $center_info = new Centerbrowse();
+    $center_list = $center_info->center_list($idx);
+    $center_list_image = $center_info->center_list_image($idx);
+    $center_value = $center_list[0]['center'];
+    $center_contents = $center_list[0]['center_contents'];
+}
 $token = get_token();
 
 // massage 설정을 삼항 연산자로 변경
@@ -26,7 +27,7 @@ if (in_array($center_value, $center_values)) {
     $checked[$center_value] = 'checked';
 }
 
-var_dump($center_list);
+
 ?>
 <style>
 #preview_container {
@@ -63,7 +64,19 @@ var_dump($center_list);
                     <tr>
                         <td rowspan="3">
                             <!-- 미리보기 이미지들이 표시될 영역 -->
-                            <div id="preview_container" style="display: flex; flex-wrap: wrap;"></div>
+                            <div id="preview_container" >
+                                <?
+                                    if($idx){
+                                        foreach ($center_list_image as $row){
+                                ?>
+                                            <img src ="<?=$row['image_src']?>" style="width:100px; height:100px;">
+                                            <input type="hidden" name="existing_images[]" value="<?= $row['image_src'] ?>">
+                                <?
+                                        }
+
+                                    }
+                                ?>
+                            </div>
                         </td>                       
                         <td>
                             <div id="drop_zone" style="border: 2px dashed #ccc; padding: 10px; text-align: center;">
@@ -87,9 +100,7 @@ var_dump($center_list);
                     </tr>
                     <tr>
                         <td>내용 정보
-                            <textarea id="center_contents" name="center_contents" >
-                            <? echo isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?>
-                            </textarea>
+                            <textarea id="center_contents" name="center_contents" ><?= isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?></textarea>
                         </td>
                     </tr>
                 </tbody>

@@ -45,7 +45,7 @@ class Centerbrowse extends MySQL {
         $sql = "SELECT idx, center_idx, center, image_src, image_name, image_id, reg_date
                 FROM center_browse_image WHERE center_idx= '" . $data . "'
         ";
-        //echo $sql; 
+
         return $this->sql_while_array($sql);
 
     }
