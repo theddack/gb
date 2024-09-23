@@ -97,7 +97,9 @@ if (in_array($center_value, $center_values)) {
                                 <input type="radio" name="center" id="center" value="daegu" <?=$checked['daegu']?>>대구 &nbsp;
                             </label>                                                       
                         </td>
+                    
                     </tr>
+
                     <tr>
                         <td>내용 정보
                             <textarea id="center_contents" name="center_contents" ><?= isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?></textarea>

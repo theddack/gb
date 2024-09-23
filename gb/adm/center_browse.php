@@ -9,6 +9,7 @@ require_once './admin.head.php';
 
 $center_info = new Centerbrowse();
 $center_list = $center_info->center_list($idx);
+
 $center_total = $center_info->set_total_cnt();
 
 ?>
@@ -45,10 +46,12 @@ $center_total = $center_info->set_total_cnt();
             $update_user = $row['update_user'] ?? '-';
             $update_date =$row['update_date'] ?? '-';
 
+            $center = ($row['center'] == "seoul") ? "서울" : (($row['center'] == "busan") ? "부산" : (($row['center'] == "daegu") ? "대구" : $row['center']));
+
 ?>
         <tr>  
                 <th scope="col"><?=$center_total?></th>
-                <th scope="col"><?=$row['center']?></th>
+                <th scope="col"><?=$center?></th>
                 <th scope="col">
                     <?
                         $center_list_image = $center_info->center_list_image($row['idx']);
@@ -68,7 +71,7 @@ $center_total = $center_info->set_total_cnt();
                 <th scope="col"><?=$row['reg_date']?></th>  
                 <th scope="col">
                     <a href="./center_browse_form.php?idx=<?=$row['idx']?>" class="btn btn_01">수정</a>
-                    <a href="javascript:list_delete(<?=$row['idx']?>)" class="btn btn_01">삭제</a>
+                    <a onClick="javascript:list_delete(<?=$row['idx']?>)" class="btn btn_01">삭제</a>
                 </th>
         </tr>           
 <?
@@ -81,19 +84,54 @@ $center_total = $center_info->set_total_cnt();
 
 </div>
 <script>
+
+
     function list_delete(idx){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });        
         Swal.fire({
             title: '선택하신 게시물을 \r\n삭제 하시 겠습니까?',
             text: '삭제 하시면 다시 되돌릴 수 없습니다.',
-            icon: 'warning',
+            icon: 'info',
             
             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
             confirmButtonColor: '#ff4081', // confrim 버튼 색깔 지정
             cancelButtonColor: '#3f51b5', // cancel 버튼 색깔 지정
             confirmButtonText: '승인', // confirm 버튼 텍스트 지정
             cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-        }).then((result) => {});
+        }).then((result) => {
+            $.ajax({
+                url: 'center_browse_api.php',
+                type: 'POST',
+                data: { 
+                        idx: idx,
+                        data_value: 'delete'
+                    },
+                success: function(response) {
+                    if(response == "success"){
+                        Toast.fire({
+                            icon: "success",
+                            title: "삭제를 완료 하셨습니다."
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: "error",
+                            title: "삭제를 실패 하셨습니다. \r\n관리자에게 문의 하시기 바랍니다."
+                        });
+                    }
+                }
+            });
 
+        });
     }
 
 </script>
