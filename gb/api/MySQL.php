@@ -4,7 +4,6 @@ class MySQL{
 
     var $connect_db = null;
 
-
     function __construct() {
         $this->db_connect();
     }
@@ -66,9 +65,8 @@ class MySQL{
     }
 
     function sql_while_array($query){
-        
-        $result = $this->sql_query($query);
 
+        $result = $this->sql_query($query);
 
         $list = [];
         while ($row = @mysqli_fetch_assoc($result)){

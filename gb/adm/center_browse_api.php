@@ -8,6 +8,7 @@ auth_check_menu($auth, $sub_menu, "w");
 
 $idx = isset($_POST['idx']) ? $_POST['idx'] : '';
 $center = isset($_POST['center']) ? $_POST['center'] : '';
+$center_yn = isset($_POST['center_yn']) ? $_POST['center_yn'] : '';
 $center_contents = isset($_POST['center_contents']) ? trim($_POST['center_contents']) : '';
 $existing_images = $_POST['existing_images'] ?? []; // 기존 이미지를 배열로 받아옴
 $user_id = $_SESSION['ss_mb_id'];
@@ -23,24 +24,29 @@ if($data_value ){
 
         if (sql_query($sql)){
                 $sql_check = "SELECT idx, image_name FROM center_browse_image WHERE center_idx = '" . $idx . "'";
-                //echo $sql_check; exit;
                 $result_check = sql_query($sql_check);
 
                 while($row_check = sql_fetch_array($result_check)){
                         $file_path = $upload_dir. $row_check['image_name'];
-                        if(file_exists($file_path)){                                
+
+                        if(!empty($row_check['image_name']) &&  file_exists($file_path)){                                
                                 $sql2 = "DELETE FROM center_browse_image WHERE idx='" . $row_check['idx'] . "'";
-                               // echo $sql2; exit;
+
                                 if(sql_query($sql2)){
-                                        unlink($file_path);
+                                        if(unlink($file_path)){
                                         $result = "success";
+                                        } else {
+                                        $result = "error";    
+                                        }
                                 } else {
-                                        $result = "error";     
+                                        $result = "error";      
                                 }
                         } else {
-                                $result = "success";      
+                                // 파일이 없지만 정상적인 흐름일 경우에도 success 처리
+                                $result = "success";                               
                         }
                 }
+                $result = "success";    
         } else {
                 $result = "error";
         }
@@ -55,11 +61,11 @@ if($data_value ){
         }
 
         if(!$idx) {
-                $sql = "INSERT INTO center_browse (center, center_contents, user_id)
-                        VALUES ('". $center ."', '". $center_contents ."', '". $user_id ."')";
+                $sql = "INSERT INTO center_browse (center, center_contents, user_id, center_yn)
+                        VALUES ('". $center ."', '". $center_contents ."', '". $user_id ."', '". $center_yn ."')";
                 
         } else {
-                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_contents = '" . $center_contents . "'
+                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_contents = '" . $center_contents . "', center_yn = '" . $center_yn . "'
                         WHERE idx = '" . $idx . "'";
         }
 

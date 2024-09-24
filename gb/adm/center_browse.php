@@ -8,9 +8,11 @@ $g5['title'] = '둘러보기';
 require_once './admin.head.php';
 
 $center_info = new Centerbrowse();
+$center_info->page = 1;
+$center_info->page_size = 10;
 $center_list = $center_info->center_list($idx);
-
 $center_total = $center_info->set_total_cnt();
+
 
 ?>
 <div class="local_ov01 local_ov">
@@ -37,6 +39,7 @@ $center_total = $center_info->set_total_cnt();
             <th scope="col">수정일</th>
             <th scope="col">등록자</th>            
             <th scope="col">등록일</th>
+            <th scope="col">사용유무</th>
             <th scope="col">관리</th>
         </tr>
         
@@ -69,6 +72,7 @@ $center_total = $center_info->set_total_cnt();
                 <th scope="col"><?=$update_date?></th>
                 <th scope="col"><?=$row['user_id']?></th>  
                 <th scope="col"><?=$row['reg_date']?></th>  
+                <th scope="col"><?=$row['center_yn']?></th> 
                 <th scope="col">
                     <a href="./center_browse_form.php?idx=<?=$row['idx']?>" class="btn btn_01">수정</a>
                     <a onClick="javascript:list_delete(<?=$row['idx']?>)" class="btn btn_01">삭제</a>
@@ -121,6 +125,9 @@ $center_total = $center_info->set_total_cnt();
                         Toast.fire({
                             icon: "success",
                             title: "삭제를 완료 하셨습니다."
+                        }).then(() => {
+                            // 토스트 메시지가 사라진 후 새로 고침
+                            window.location.reload(); // 또는 다른 새로 고침 방식 사용 가능
                         });
                     } else {
                         Toast.fire({

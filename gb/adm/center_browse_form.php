@@ -13,6 +13,7 @@ if($idx){
     $center_list_image = $center_info->center_list_image($idx);
     $center_value = $center_list[0]['center'];
     $center_contents = $center_list[0]['center_contents'];
+    $center_yn = $center_list[0]['center_yn'];
 }
 $token = get_token();
 
@@ -25,6 +26,13 @@ $checked = array_fill_keys($center_values, '');
 
 if (in_array($center_value, $center_values)) {
     $checked[$center_value] = 'checked';
+}
+
+$list_yn = ['Y', 'N'];
+$checked2 = array_fill_keys($list_yn, '');
+
+if (in_array($center_yn, $list_yn)) {
+    $checked2[$center_yn] = 'checked';
 }
 
 
@@ -57,12 +65,12 @@ if (in_array($center_value, $center_values)) {
                 <thead>
                     <tr>
                     <th style="width: 25%;">둘러보기 이미지 보기</th>
-                    <th style="width: 25%;">둘러보기 이미지</th>
+                    <th style="width: 25%;">둘러보기 이미지</th>                    
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="3">
+                        <td rowspan="4">
                             <!-- 미리보기 이미지들이 표시될 영역 -->
                             <div id="preview_container" >
                                 <?
@@ -99,12 +107,21 @@ if (in_array($center_value, $center_values)) {
                         </td>
                     
                     </tr>
-
+                    <tr>
+                        <td>사용 여부 : 
+                            <label>
+                                <input type="radio" name="center_yn" id="center_yn" value="Y" <?=$checked2['Y']?>>Y &nbsp;
+                            </label>    
+                            <label>
+                                <input type="radio" name="center_yn" id="center_yn" value="N" <?=$checked2['N']?>>N &nbsp;
+                            </label>                           
+                        </td>
+                    </tr>
                     <tr>
                         <td>내용 정보
                             <textarea id="center_contents" name="center_contents" ><?= isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?></textarea>
-                        </td>
-                    </tr>
+                        </td>                        
+                    </tr>                    
                 </tbody>
             </table>
         </div>
