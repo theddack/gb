@@ -75,6 +75,21 @@ class MySQL{
         return $list;
     }
 
+    function sql_while_array2($query, $num){ // 페이징 처리
+
+        $result = $this->sql_query($query);
+
+        $list = [];
+        while ($row = @mysqli_fetch_assoc($result)){
+            $row['num'] = $num--;
+            $list[] = $row;
+        }
+
+        
+        return $list;
+    }
+
+
 }
 
 

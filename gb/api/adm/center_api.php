@@ -29,24 +29,24 @@ class Centerbrowse extends MySQL {
         return $rtn;
     }
 
+
     public function center_list ($idx) {
 
+        $s_page = ($this->page - 1) * $this->page_size;
+        $e_page = $this->page_size;        
 
         if ($idx){
             $sql_sub = $this->where ." idx ='". $idx . "'";
         }
+    
+        $sql_sub .= " LIMIT " . intval($s_page) . "," . intval($e_page) . "";
 
-        if($this->page ){
-            $s_page = ($this->page - 1) * $this->page_size;
-            $e_page = $this->page_size;            
-            $sql_sub .= " LIMIT " . $s_page . "," . $e_page . "";
-        }
+        $num = $this->set_total_cnt() - $s_page;
 
         $sql = "SELECT idx, center, center_contents, update_user, update_date, user_id, reg_date, center_yn
                 FROM " . $this->table_name .  $sql_sub;
-        echo $sql; 
 
-        return $this->sql_while_array($sql);
+        return $this->sql_while_array2($sql, $num);
     }
 
     public function center_list_image($data) {
@@ -62,7 +62,6 @@ class Centerbrowse extends MySQL {
     public function center_delete($idx){
 
         $sql = "DELETE FROM " . $this->table_name . $this->where ." idx= '" . $idx . "'";
-        //echo $sql; exit;
 
         if($this->sql_featch_array($sql)){
             $sql2 = "DELETE FROM " . $this->table_name_image . $this->where . " center_idx='" . $idx . "'";
@@ -79,6 +78,16 @@ class Centerbrowse extends MySQL {
         }
     }
 
+    public function center_pageing($cf_write_pages, $page, $qstr) { //페이징
+        $domain = isset($domain) ? $domain : '';
+        $total_cnt = $this->set_total_cnt();
+        $total_page = ceil( $total_cnt/ $cf_write_pages);
+
+        $pagelist = get_paging($cf_write_pages, $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&amp;domain='.$domain.'&amp;page=');
+        if ($pagelist) {
+            echo $pagelist;
+        }
+    }
 
 }
 ?>

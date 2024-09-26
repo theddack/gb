@@ -8,8 +8,8 @@ $g5['title'] = '둘러보기';
 require_once './admin.head.php';
 
 $center_info = new Centerbrowse();
-$center_info->page = 1;
-$center_info->page_size = 10;
+$page = $center_info->page = ($_REQUEST['page'] ? $_REQUEST['page'] : '1');
+$page_size = $center_info->page_size = 10;
 $center_list = $center_info->center_list($idx);
 $center_total = $center_info->set_total_cnt();
 
@@ -53,7 +53,7 @@ $center_total = $center_info->set_total_cnt();
 
 ?>
         <tr>  
-                <th scope="col"><?=$center_total?></th>
+                <th scope="col"><?=$row['num']?></th>
                 <th scope="col"><?=$center?></th>
                 <th scope="col">
                     <?
@@ -82,10 +82,8 @@ $center_total = $center_info->set_total_cnt();
 
         }
 ?>        
-        
     </table>
-
-
+        <?=$center_info->center_pageing($config['cf_write_pages'], $page, $qstr) ?>
 </div>
 <script>
 
