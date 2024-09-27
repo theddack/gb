@@ -93,7 +93,7 @@ $center_total = $center_info->set_total_cnt();
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
@@ -111,31 +111,37 @@ $center_total = $center_info->set_total_cnt();
             confirmButtonText: '승인', // confirm 버튼 텍스트 지정
             cancelButtonText: '취소', // cancel 버튼 텍스트 지정
         }).then((result) => {
-            $.ajax({
-                url: 'center_browse_api.php',
-                type: 'POST',
-                data: { 
-                        idx: idx,
-                        data_value: 'delete'
-                    },
-                success: function(response) {
-                    if(response == "success"){
-                        Toast.fire({
-                            icon: "success",
-                            title: "삭제를 완료 하셨습니다."
-                        }).then(() => {
-                            // 토스트 메시지가 사라진 후 새로 고침
-                            window.location.reload(); // 또는 다른 새로 고침 방식 사용 가능
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: "error",
-                            title: "삭제를 실패 하셨습니다. \r\n관리자에게 문의 하시기 바랍니다."
-                        });
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'center_browse_api.php',
+                    type: 'POST',
+                    data: { 
+                            idx: idx,
+                            data_value: 'delete'
+                        },
+                    success: function(response) {
+                        if(response == "success"){
+                            Toast.fire({
+                                icon: "success",
+                                title: "삭제를 완료 하셨습니다."
+                            }).then(() => {
+                                // 토스트 메시지가 사라진 후 새로 고침
+                                window.location.reload(); // 또는 다른 새로 고침 방식 사용 가능
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: "error",
+                                title: "삭제를 실패 하셨습니다. \r\n관리자에게 문의 하시기 바랍니다."
+                            });
+                        }
                     }
-                }
-            });
-
+                });
+            } else {
+                Toast.fire({
+                    icon: "info",
+                    title: "삭제를 취소 하셨습니다."
+                })               
+            }
         });
     }
 

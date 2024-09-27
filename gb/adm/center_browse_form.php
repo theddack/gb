@@ -118,7 +118,7 @@ if (in_array($center_yn, $list_yn)) {
                         </td>
                     </tr>
                     <tr>
-                        <td>내용 정보
+                        <td>내용 정보 :
                             <textarea id="center_contents" name="center_contents" ><?= isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?></textarea>
                         </td>                        
                     </tr>                    

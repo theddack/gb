@@ -31,15 +31,16 @@ class Centerbrowse extends MySQL {
 
 
     public function center_list ($idx) {
-
-        $s_page = ($this->page - 1) * $this->page_size;
-        $e_page = $this->page_size;        
-
         if ($idx){
             $sql_sub = $this->where ." idx ='". $idx . "'";
         }
     
-        $sql_sub .= " LIMIT " . intval($s_page) . "," . intval($e_page) . "";
+        if($this->page){
+            $s_page = ($this->page - 1) * $this->page_size;
+            $e_page = $this->page_size;       
+            $sql_sub .= " LIMIT " . intval($s_page) . "," . intval($e_page) . "";
+        }
+
 
         $num = $this->set_total_cnt() - $s_page;
 
@@ -51,7 +52,7 @@ class Centerbrowse extends MySQL {
 
     public function center_list_image($data) {
 
-        $sql = "SELECT idx, center_idx, center, image_src, image_name, image_id, reg_date, center_yn
+        $sql = "SELECT idx, center_idx, center, image_src, image_name, image_id, reg_date
                 FROM " . $this->table_name_image . $this->where ." center_idx= '" . $data . "'
         ";
 

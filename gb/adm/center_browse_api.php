@@ -20,33 +20,31 @@ $image_paths = array();
 
 
 if($data_value ){
+
         $sql = "DELETE FROM center_browse WHERE idx= '" . $idx . "'";
 
         if (sql_query($sql)){
                 $sql_check = "SELECT idx, image_name FROM center_browse_image WHERE center_idx = '" . $idx . "'";
                 $result_check = sql_query($sql_check);
 
-                while($row_check = sql_fetch_array($result_check)){
-                        $file_path = $upload_dir. $row_check['image_name'];
+                if($result_check){
+                        while($row_check = sql_fetch_array($result_check)){
+                                $file_path = $upload_dir. $row_check['image_name'];
 
-                        if(!empty($row_check['image_name']) &&  file_exists($file_path)){                                
-                                $sql2 = "DELETE FROM center_browse_image WHERE idx='" . $row_check['idx'] . "'";
+                                if(!empty($row_check['image_name']) &&  file_exists($file_path)){                                
+                                        $sql2 = "DELETE FROM center_browse_image WHERE idx='" . $row_check['idx'] . "'";
 
-                                if(sql_query($sql2)){
-                                        if(unlink($file_path)){
-                                        $result = "success";
+                                        if(sql_query($sql2)){
+                                                unlink($file_path);
+                                                $result = "success";
                                         } else {
-                                        $result = "error";    
+                                                $result = "error";      
                                         }
-                                } else {
-                                        $result = "error";      
                                 }
-                        } else {
-                                // 파일이 없지만 정상적인 흐름일 경우에도 success 처리
-                                $result = "success";                               
                         }
-                }
-                $result = "success";    
+                } 
+                $result = "success"; 
+
         } else {
                 $result = "error";
         }
@@ -72,6 +70,7 @@ if($data_value ){
         if (sql_query($sql)) {
                 // 방금 삽입한 데이터의 idx 가져오기
                 $sql2 = "SELECT idx FROM center_browse WHERE center ='" . $center . "' AND user_id='" . $user_id . "'";
+
                 $result = sql_query($sql2);
                 $row = sql_fetch_array($result);
 
@@ -111,7 +110,7 @@ if($data_value ){
                                 }
                         }
                         // 업데이트 또는 삽입이 완료되면 리다이렉트
-                        header("Location: " . $_SERVER['HTTP_REFERER']);
+                        header("Location: " . "../adm/center_browse.php");
                 }
         }
 }
