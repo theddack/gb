@@ -75,7 +75,7 @@ border:1px solid #558ab7 !important;
 #tnb:after {display:block;visibility:hidden;clear:both;content:""}
 #tnb .inner {margin:0 auto}
 
-#hd_wrapper {position:relative;margin:0 auto;height:140px;zoom:1}
+#hd_wrapper {position:relative;margin:0 auto;height:80px;zoom:1}
 #hd_wrapper:after {display:block;visibility:hidden;clear:both;content:""}
 
 #logo {float:left;padding:30px 0 0}

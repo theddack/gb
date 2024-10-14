@@ -34,6 +34,7 @@ $center_total = $center_info->set_total_cnt();
             <th scope="col">번호</th>
             <th scope="col">지점</th>
             <th scope="col">이미지</th>
+            <th scope="col">지점주소</th>
             <th scope="col">내용</th>
             <th scope="col">수정자</th>
             <th scope="col">수정일</th>
@@ -67,6 +68,7 @@ $center_total = $center_info->set_total_cnt();
                         }
                     ?>
                 </th>
+                <th scope="col"><?=$row['center_addres']?></th>
                 <th scope="col"><?=$row['center_contents']?></th>
                 <th scope="col"><?=$update_user?></th>
                 <th scope="col"><?=$update_date?></th>

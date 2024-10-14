@@ -9,6 +9,7 @@ auth_check_menu($auth, $sub_menu, "w");
 $idx = isset($_POST['idx']) ? $_POST['idx'] : '';
 $center = isset($_POST['center']) ? $_POST['center'] : '';
 $center_yn = isset($_POST['center_yn']) ? $_POST['center_yn'] : '';
+$center_addres = isset($_POST['center_addres']) ? $_POST['center_addres'] : '';
 $center_contents = isset($_POST['center_contents']) ? trim($_POST['center_contents']) : '';
 $existing_images = $_POST['existing_images'] ?? []; // 기존 이미지를 배열로 받아옴
 $user_id = $_SESSION['ss_mb_id'];
@@ -59,11 +60,11 @@ if($data_value ){
         }
 
         if(!$idx) {
-                $sql = "INSERT INTO center_browse (center, center_contents, user_id, center_yn)
-                        VALUES ('". $center ."', '". $center_contents ."', '". $user_id ."', '". $center_yn ."')";
+                $sql = "INSERT INTO center_browse (center, center_addres, center_contents, user_id, center_yn)
+                        VALUES ('". $center ."', '". $center_addres ."', '". $center_contents ."', '". $user_id ."', '". $center_yn ."')";
                 
         } else {
-                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_contents = '" . $center_contents . "', center_yn = '" . $center_yn . "'
+                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_addres= '" . $center_addres . "', center_contents = '" . $center_contents . "', center_yn = '" . $center_yn . "'
                         WHERE idx = '" . $idx . "'";
         }
 

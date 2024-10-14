@@ -38,15 +38,14 @@ class Centerbrowse extends MySQL {
         if($this->page){
             $s_page = ($this->page - 1) * $this->page_size;
             $e_page = $this->page_size;       
-            $sql_sub .= " LIMIT " . intval($s_page) . "," . intval($e_page) . "";
+            $sql_sub .= " ORDER BY idx DESC LIMIT " . intval($s_page) . "," . intval($e_page) . "";
         }
 
 
         $num = $this->set_total_cnt() - $s_page;
 
-        $sql = "SELECT idx, center, center_contents, update_user, update_date, user_id, reg_date, center_yn
+        $sql = "SELECT idx, center, center_addres, center_contents, update_user, update_date, user_id, reg_date, center_yn
                 FROM " . $this->table_name .  $sql_sub;
-
         return $this->sql_while_array2($sql, $num);
     }
 

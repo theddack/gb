@@ -70,7 +70,7 @@ if (in_array($center_yn, $list_yn)) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="4">
+                        <td rowspan="5">
                             <!-- 미리보기 이미지들이 표시될 영역 -->
                             <div id="preview_container" >
                                 <?
@@ -117,6 +117,11 @@ if (in_array($center_yn, $list_yn)) {
                             </label>                           
                         </td>
                     </tr>
+                    <tr>
+                        <td>지점 주소 :
+                            <textarea id="center_addres" name="center_addres" ><?= isset($center_addres) ? htmlspecialchars($center_addres) : ''; ?></textarea>
+                        </td>                        
+                    </tr>                        
                     <tr>
                         <td>내용 정보 :
                             <textarea id="center_contents" name="center_contents" ><?= isset($center_contents) ? htmlspecialchars($center_contents) : ''; ?></textarea>
