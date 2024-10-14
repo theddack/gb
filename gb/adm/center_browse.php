@@ -15,6 +15,7 @@ $center_total = $center_info->set_total_cnt();
 
 
 ?>
+
 <div class="local_ov01 local_ov">
     <span class="btn_ov01">
         <span class="ov_txt">전체 </span>
@@ -44,7 +45,7 @@ $center_total = $center_info->set_total_cnt();
             <th scope="col">관리</th>
         </tr>
         
-<?
+<?php
         foreach ($center_list as $row){
         
             $update_user = $row['update_user'] ?? '-';
@@ -68,8 +69,8 @@ $center_total = $center_info->set_total_cnt();
                         }
                     ?>
                 </th>
-                <th scope="col"><?=$row['center_addres']?></th>
-                <th scope="col"><?=$row['center_contents']?></th>
+                <th scope="col" id="truncate-text-<?=$row['idx']?>"><?=$row['center_addres']?></th>
+                <th scope="col" id="truncate-text-<?=$row['idx']?>"><?=$row['center_contents']?></th>
                 <th scope="col"><?=$update_user?></th>
                 <th scope="col"><?=$update_date?></th>
                 <th scope="col"><?=$row['user_id']?></th>  
@@ -80,7 +81,7 @@ $center_total = $center_info->set_total_cnt();
                     <a onClick="javascript:list_delete(<?=$row['idx']?>)" class="btn btn_01">삭제</a>
                 </th>
         </tr>           
-<?
+<?php
 
         }
 ?>        
@@ -88,7 +89,19 @@ $center_total = $center_info->set_total_cnt();
         <?=$center_info->center_pageing($config['cf_write_pages'], $page, $qstr) ?>
 </div>
 <script>
-
+    $(document).ready(function() {
+        // 각 행의 id를 사용해 개별적으로 처리
+        $('th[id^="truncate-text-"]').each(function() {
+            truncateText(this, 5);
+        });
+    }); 
+    function truncateText(element, maxLength) {
+        const text = $(element).text();
+        
+        if (text.length > maxLength) {
+        $(element).text(text.slice(0, maxLength) + '...');
+        }
+    }
 
     function list_delete(idx){
         const Toast = Swal.mixin({

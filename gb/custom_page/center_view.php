@@ -46,7 +46,7 @@ $center_branch = ($_REQUEST['center'] ? $_REQUEST['center'] : 'seoul' );
 /* 메인 컨테이너 */
 .main-container {
     display: flex;
-    padding: 20px;
+    padding: 100px;
 }
 
 /* 이미지 및 설명 영역 */
@@ -104,7 +104,7 @@ $center_branch = ($_REQUEST['center'] ? $_REQUEST['center'] : 'seoul' );
 /* 슬라이더 스타일 */
 .image-slider {
     position: relative;
-    max-width: 47%;
+    max-width: 54%;
     overflow: hidden;
 }
 
@@ -219,7 +219,7 @@ foreach ($center_list as $row) {
         <div>   
         <ul class ="slider_text_cont">
                 <li>
-                    <h1>테스트 <?=$current_center_name ?>점</h1><br/>
+                    <h1>테스트 <?=$current_center_name ?>점</h1><br/>333
                     <p><?=$row['center_addres'] ?></p>
                     <div class="icon-container">
                         <span>📞</span>
@@ -242,8 +242,8 @@ foreach ($center_list as $row) {
                     $is_center_registered = false;
                     
                     // 등록된 지점이 있는지 확인
-                    foreach ($center_list as $row) {
-                        if ($center_code == $row['center'] && $row['center_yn'] == 'Y') {
+                    foreach ($center_list as $rows) {
+                        if ($center_code == $rows['center'] && $rows['center_yn'] == 'Y') {
                             $is_center_registered = true;
                             break;
                         }
@@ -260,7 +260,6 @@ foreach ($center_list as $row) {
                 }
             ?>
         </div>
-
         <p><?=$row['center_contents']?></p>
     </div>
 </div>   

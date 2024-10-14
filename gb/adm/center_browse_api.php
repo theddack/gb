@@ -64,8 +64,8 @@ if($data_value ){
                         VALUES ('". $center ."', '". $center_addres ."', '". $center_contents ."', '". $user_id ."', '". $center_yn ."')";
                 
         } else {
-                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_addres= '" . $center_addres . "', center_contents = '" . $center_contents . "', center_yn = '" . $center_yn . "'
-                        WHERE idx = '" . $idx . "'";
+                $sql = "UPDATE center_browse SET center = '" .$center . "',  center_addres= '" . $center_addres . "', center_contents = '" . $center_contents . "', center_yn = '" . $center_yn . "',
+                        update_user ='" . $user_id . "' ,  update_date=NOW()   WHERE idx = '" . $idx . "'";
         }
 
         if (sql_query($sql)) {

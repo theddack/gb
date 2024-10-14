@@ -12,6 +12,7 @@ if($idx){
     $center_list = $center_info->center_list($idx);
     $center_list_image = $center_info->center_list_image($idx);
     $center_value = $center_list[0]['center'];
+    $center_addres = $center_list[0]['center_addres'];
     $center_contents = $center_list[0]['center_contents'];
     $center_yn = $center_list[0]['center_yn'];
 }
@@ -37,6 +38,7 @@ if (in_array($center_yn, $list_yn)) {
 
 
 ?>
+
 <style>
 #preview_container {
     width: 100%;  /* 가로 너비를 100%로 설정 */
@@ -137,6 +139,27 @@ if (in_array($center_yn, $list_yn)) {
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#center_contents').summernote({
+            height: 300,                 // 에디터 높이
+            minHeight: null,             // 최소 높이
+            maxHeight: null,             // 최대 높이
+            focus: true,                  // 페이지 로드 후 포커스 설정
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', [ 'link']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],            
+            placeholder: '여기에 내용을 작성하세요'
+        });
+
+    });    
+
     document.addEventListener('DOMContentLoaded', () => {
         const dropZone = document.getElementById('drop_zone');
         const fileInput = document.getElementById('file_input');
