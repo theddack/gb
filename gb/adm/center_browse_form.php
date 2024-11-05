@@ -16,6 +16,7 @@ if($idx){
     $center_contents = $center_list[0]['center_contents'];
     $center_yn = $center_list[0]['center_yn'];
 }
+
 $token = get_token();
 
 // massage 설정을 삼항 연산자로 변경

@@ -28,7 +28,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
 	$url .= substr($url, -1) === '?' ? 'page=' : '&amp;page=';
     $url = preg_replace('|[^\w\-~+_.?#=!&;,/:%@$\|*\'()\[\]\\x80-\\xff]|i', '', clean_xss_tags($url));
 
-    $str = '';
+    $str = ' <div class="pagination">';
     if ($cur_page > 1) {
         $str .= '<a href="'.$url.'1'.$add.'" class="pg_page pg_start">처음</a>'.PHP_EOL;
     }
@@ -43,9 +43,10 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
     if ($total_page > 1) {
         for ($k=$start_page;$k<=$end_page;$k++) {
             if ($cur_page != $k)
-                $str .= '<a href="'.$url.$k.$add.'" class="pg_page">'.$k.'<span class="sound_only">페이지</span></a>'.PHP_EOL;
+                $str .= '<a href="'.$url.$k.$add.'" class="pg_page">'.$k.'<span class="sound_only"> 페이지</span></a>'.PHP_EOL;
             else
-                $str .= '<span class="sound_only">열린</span><strong class="pg_current">'.$k.'</strong><span class="sound_only">페이지</span>'.PHP_EOL;
+            $str .= '<a href="#" class="active">열린 '.$k.'<span class="sound_only"> 페이지</span></a>'.PHP_EOL;
+            // $str .= '<span class="sound_only">열린</span><strong class="pg_current">'.$k.'</strong><span class="sound_only">페이지</span>'.PHP_EOL;
         }
     }
 
@@ -55,6 +56,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
         $str .= '<a href="'.$url.$total_page.$add.'" class="pg_page pg_end">맨끝</a>'.PHP_EOL;
     }
 
+    $str .='</div>';
     if ($str)
         return "<nav class=\"pg_wrap\"><span class=\"pg\">{$str}</span></nav>";
     else

@@ -1,0 +1,62 @@
+/* 고민부위, 연령대 체크박스 */
+.chk_wrap {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.chk_wrap label {
+    cursor: pointer;
+}
+
+.chk_wrap input[type="checkbox"] {
+    border-radius: 6px;
+    border: 2px solid #000;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.chk_wrap input[type="checkbox"]:checked {
+    background: #000;
+}
+
+.chk_wrap input[type="checkbox"]:checked:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+/* 고민부위, 연령대 체크박스 */
+
+
+.page1 {
+    width: 100%;
+}
+    
+
+
+input[type='text'],
+input[type='number'] {
+    width: 500px;
+    height: 64px;
+    border: 1px solid #ABABAB;
+    border-radius: 15px;
+
+    font-size: 36px;
+    font-weight: 400;
+    /*text-align: center;*/
+    padding: 0;
+    text-indent: 10px;
+    margin-bottom: 0;
+}
+
+input::placeholder {
+    text-align: center;
+}
+
+

@@ -1,0 +1,164 @@
+.container_wrap {
+    padding-bottom: 140px;
+}
+
+button{
+    background: inherit;
+    border:none;
+    box-shadow:none;
+    border-radius:0;
+    padding:0;
+    overflow:visible;
+    cursor:pointer
+}
+
+.price_btn {
+    width: 100%;
+    max-width: 800px;
+    height: 140px;
+
+    background: #000;
+    padding: 20px 30px;
+    box-sizing: border-box;
+
+    position: fixed;
+    bottom: 0;
+    z-index: 5000;
+}
+
+.price_btn .price_info {
+    width: 740px;
+    height: 100px;
+    background: linear-gradient(90.17deg, #CD9136 10.66%, #B48459 89.25%);
+    box-sizing: border-box;
+    border-radius: 20px;
+
+    font-size: 54px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    line-height: 100px;
+    cursor: pointer;
+}
+
+/* page2 */
+.page2 {
+    max-width: 800px;
+    width: 100%;
+
+    position: fixed;
+    bottom: 0;
+    z-index: 6000;
+    background: #1e2023;
+
+    border-radius: 50px 50px 50px 0;
+}
+
+.close_img {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.survey_title {
+    width: 100%;
+    height: auto;
+
+    padding: 42px 0 8px;
+
+    font-size: 58px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: -3.48px;
+    color: #fff;
+}
+
+.survey_title span {
+    color: #B88626;
+}
+
+.event_title {
+    width: 100%;
+    height: auto;
+
+    margin-bottom: 34px;
+
+    font-size: 32px;
+    font-weight: normal;
+    text-align: center;
+    letter-spacing: -1.92px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.event_title span {
+    color: #B88626;
+}
+
+.input_wrap {
+    padding: 0 32px;
+}
+
+.input_form {
+    background: #fff;
+    border-radius: 30px;
+    padding: 30px 32px;
+    margin-bottom: 20px;
+}
+
+.input_form li {
+    margin-bottom: 16px;
+}
+
+.input_form li .name,
+.input_form li .age,
+.input_form li .phone {
+    color: #000;
+}
+
+
+.agree_btn {
+    background: #fff;
+    border-radius: 30px;
+
+    padding: 30px 32px;
+    margin-bottom: 62px;
+}
+
+.agree_btn label[for="all_agree"] {
+    color: #000;
+}
+
+.agree_btn label {
+    color: #717171;
+}
+
+.more_info {
+    color: #717171;
+}
+
+#submitBtn {
+    width: 740px;
+    height: 100px;
+    margin: 0 30px 20px;
+
+    border-radius: 20px;
+    background: linear-gradient(90.17deg, #CD9136 10.66%, #B48459 89.25%);
+
+    font-size: 54px;
+    font-weight: 600;
+    letter-spacing: -2px;
+    color: #fff;
+    line-height: 100px;
+}
+
+/* bg */
+.bg {
+    z-index: 3000;
+}
+
+img, video {
+    width: 100%;
+}
