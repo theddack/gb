@@ -1,8 +1,23 @@
 <?php
 
+/**********************************************/
+function insertData($table, $data){
+    $columns = implode(", ", array_keys($data));
+    //$placeholders = ":" . implode(", :", array_keys($data));
+    $values = "'" . implode("', '", array_map('addslashes', array_values($data))) . "'";
+    
+    
+    $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+
+    $row = sql_query($sql);
+
+    return $row;
+}
 
 
 
+
+/**********************************************/
 /*******************************************************************************
 ** 공통 변수, 상수, 코드
 *******************************************************************************/
