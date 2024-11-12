@@ -23,14 +23,15 @@ $view = $data['movieInfoResult']['movieInfo'];
             background-color: #fff;
             color: #000;
             margin: 0;
-            padding: 20px;
+            padding: 60px;
         }
         
         .movie-container {
             max-width: 800px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: #000;
             border: 1px solid #000;
+            border-radius: 10px;
             padding: 20px;
         }
         
@@ -39,17 +40,20 @@ $view = $data['movieInfoResult']['movieInfo'];
             font-weight: bold;
             text-align: center;
             margin-bottom: 20px;
+            color: #fff;
         }
         
         .movie-image {
             text-align: center;
             margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 10px;
         }
 
         .movie-image img {
             max-width: 100%;
             height: auto;
-            border: 1px solid #000;
+            border: 1px solid #fff;
         }
 
         .movie-info {
@@ -60,21 +64,35 @@ $view = $data['movieInfoResult']['movieInfo'];
         
         .info-label {
             font-weight: bold;
+            color: #fff;
         }
         
         .info-value {
-            background-color: #f9f9f9;
+            background-color: #fff;
             padding: 10px;
             border: 1px solid #000;
+            border-radius: 10px;
+            color: #000;
         }
         
         .full-width {
             grid-column: span 2;
         }
+        .list-div{
+            position: absolute;
+            top: 4%;
+            left: 72%;
+            transform: translate(-50%, -50%);
+        }
+        .list{
+            color: #000;
+        }
     </style>
 </head>
 <body>
-
+<div class="list-div">
+        <a class="list" href="./movie_list.php">목록으로</a>
+</div>
 <div class="movie-container">
     <div class="movie-title"> <?=$view['movieNm']?> </div>
     <div class="movie-image">
@@ -110,7 +128,7 @@ $view = $data['movieInfoResult']['movieInfo'];
         
         <div class="info-label full-width">감독</div>
         <div class="info-value full-width">
-            <a href="./movie_actor_view.php?peopleNm=<?=$view['directors'][0]['peopleNm']?>">  
+            <a class="list" href="./movie_actor_view.php?peopleNm=<?=$view['directors'][0]['peopleNm']?>&filmoNames=<?=$view['movieNm']?>">  
                 <?=$view['directors'][0]['peopleNm']?> 
             </a>
         </div>
@@ -120,7 +138,7 @@ $view = $data['movieInfoResult']['movieInfo'];
             <?php 
                 foreach($view['actors'] as $actor) {
             ?>
-                    <a href="./movie_actor_view.php?peopleNm=<?=$actor['peopleNm']?>" ><?= $actor['peopleNm']?></a>,
+                    <a class="list" href="./movie_actor_view.php?peopleNm=<?=$actor['peopleNm']?>&filmoNames=<?=$view['movieNm']?>" ><?= $actor['peopleNm']?></a>,
             <?php
 
                 }   

@@ -6,6 +6,7 @@ $weekGb = "0"; //주간/주말/주중 : 0/1/2
 
 // api URL
 $movie_api_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=$movie_api_key&targetDt=$movie_date&weekGb=$weekGb"; 
+
 $res = file_get_contents($movie_api_url);
 $data = json_decode($res, true);
 ?>
@@ -61,9 +62,10 @@ caption {
                     <th>순위</th>
                     <th>진입</th>
                     <th>영화명</th>
+                    <th>영화코드</th>
                     <th>개봉일</th>
-                    <th>매출액</th>
-                    <th>누적관객수</th>
+                    <th>전일 매출액</th>
+                    <th>전일 관객수</th>
                 </tr>
         </thead>
         <tbody>
@@ -71,14 +73,21 @@ caption {
     // 데이터 출력
     if (isset($data['boxOfficeResult']['dailyBoxOfficeList'])){
         foreach ($data['boxOfficeResult']['dailyBoxOfficeList'] as $movie){
+
+            if($movie['rankOldAndNew'] == "OLD"){
+                $rankOldAndNew = "기존";
+            } else { // NEW
+                $rankOldAndNew = "신규";
+            }
     ?>        
         <tr>
             <td><?=$movie['rank'] ?></td>
-            <td><?=$movie['rankOldAndNew'] ?></td>
+            <td><?=$rankOldAndNew  ?></td>
             <td><a href="./movie_view.php?movieCd=<?=$movie['movieCd'] ?>" ><?=$movie['movieNm'] ?></a></td>
+            <td><?=$movie['movieCd'] ?></td>
             <td><?=$movie['openDt'] ?></td>
             <td><?=number_format($movie['salesAmt']) ?></td>
-            <td><?=number_format($movie['audiAcc']) ?></td>
+            <td><?=number_format($movie['audiCnt']) ?></td>
         </tr>    
     <?php 
 
