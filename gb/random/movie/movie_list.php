@@ -11,8 +11,12 @@ $res = file_get_contents($movie_api_url);
 $data = json_decode($res, true);
 ?>
 <style>
+@font-face {
+    font-family : 'ChosunCentennial';
+    src:url('../../css/font/ChosunCentennial_ttf.ttf') format('truetype');
+}
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'ChosunCentennial', Arial, sans-serif;
     background-color: #fff;
     color: #000;
     margin: 20px;
@@ -54,6 +58,8 @@ caption {
 }
 
 
+
+
 </style>
 <body>
     <table>
@@ -66,6 +72,7 @@ caption {
                     <th>개봉일</th>
                     <th>전일 매출액</th>
                     <th>전일 관객수</th>
+                    <th>전일 상영된 횟수</th>
                 </tr>
         </thead>
         <tbody>
@@ -88,6 +95,7 @@ caption {
             <td><?=$movie['openDt'] ?></td>
             <td><?=number_format($movie['salesAmt']) ?></td>
             <td><?=number_format($movie['audiCnt']) ?></td>
+            <td><?=number_format($movie['showCnt']) ?></td>
         </tr>    
     <?php 
 

@@ -17,9 +17,13 @@ $view = $data['movieInfoResult']['movieInfo'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 정보</title>
-    <style>
+            <style>
+        @font-face {
+            font-family : 'ChosunCentennial';
+            src:url('../../css/font/ChosunCentennial_ttf.ttf') format('truetype');
+        } 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ChosunCentennial', Arial, sans-serif;
             background-color: #fff;
             color: #000;
             margin: 0;

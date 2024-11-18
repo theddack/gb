@@ -10,9 +10,13 @@ $data = json_decode($res1, true);
 
 ?>
 <style>
+@font-face {
+    font-family : 'ChosunCentennial';
+    src:url('../../css/font/ChosunCentennial_ttf.ttf') format('truetype');
+}    
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'ChosunCentennial', Arial, sans-serif;
     /* ackground-color: #000; 검은색 배경 */
     color: #fff; /* 흰색 글자 */
     display: flex;

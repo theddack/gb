@@ -15,6 +15,21 @@ function insertData($table, $data){
 }
 
 
+function updateData($table, $data, $where){
+    $setValues = [];
+
+    foreach ($data as $column => $value) {
+        $setValues [] = "$column = '" . addslashes($value) . "'";
+    }
+
+    $setString = implode(", ", $setValues);
+
+    $sql = "UPDATE $table SET $setString WHERE $where";
+    $row = sql_query($sql);
+
+    return $row;
+
+}
 
 
 /**********************************************/
