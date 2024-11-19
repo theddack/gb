@@ -14,7 +14,7 @@ function insertData($table, $data){
     return $row;
 }
 
-//123
+
 function updateData($table, $data, $where){
     $setValues = [];
 
