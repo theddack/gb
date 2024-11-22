@@ -35,6 +35,10 @@ $rs = sql_query($sql_select);
         padding: 20px;
     }
 
+    a {
+        text-decoration: none;
+    }
+
     .pokedex-row {
         display: flex;
         justify-content: center; /* 중앙 정렬 */
@@ -174,10 +178,10 @@ $rs = sql_query($sql_select);
     }
 
     .pagination-button.first {
-        text-align: left;
+        text-align: right;
         padding-right: 20px;
         top: 20px;        
-        left: 301px;
+        right: -305px;
     }
 
     .search-container {
@@ -260,14 +264,18 @@ $rs = sql_query($sql_select);
     if($page < $total_page && !$search){
 ?>
     <form method="get" style="display: inline;">
-        <input type="hidden" name="page" value="<?= $page - 1 ?>">
-        <button type="submit" class="pagination-button previous" id="previous" <?= $page <= 1 ? 'disabled' : '' ?>>이전</button>
+        <input type="hidden" name="page" value="<?=$page - 1 ?>">
+        <button type="submit" class="pagination-button previous" id="previous" <?=$page <= 1 ? 'disabled' : '' ?>>이전</button>
     </form>
     <form method="get" style="display: inline;">
-        <input type="hidden" name="page" value="<?= $page + 1 ?>">
-        <button type="submit" class="pagination-button next" id="next" <?= $page >= $total_page ? 'disabled' : '' ?>>다음</button>
+        <input type="hidden" name="page" value="<?=$page + 1 ?>">
+        <button type="submit" class="pagination-button next" id="next" <?=$page >= $total_page ? 'disabled' : '' ?>>다음</button>
     </form>
 <? } else { ?>
+    <form method="get" style="display: inline;">
+        <input type="hidden" name="page" value="<?=$page - 1 ?>">
+        <button type="submit" class="pagination-button previous" id="previous" <?=$page <= 1 ? 'disabled' : '' ?>>이전</button>
+    </form>    
     <form method="get" style="display: inline;">
         <input type="hidden" name="page" value="1">
         <button type="submit" class="pagination-button first" >처음으로</button>
@@ -292,19 +300,21 @@ foreach ($rs as $poket) {
         echo '</div><div class="pokedex-grid">';
     }
 ?>
-    <div class="pokedex-entry">
-        <div class="number">#<?=$poket['idx']?></div>
-        <div class="image">
-            <!-- 이미지 추가 시 여기에 <img src="이미지 URL" alt="포켓몬 이름"> -->
-            <span>
-                <img src="<?=$poket['pokemon_image_url']?>" alt="<?=$poket['pokemon_name_kr']?>" >
-            </span>
+    <a href="./poket_view.php?idx=<?=$poket['idx']?>&page=<?=$page ?>">
+        <div class="pokedex-entry">
+            <div class="number">#<?=$poket['idx']?></div>
+            <div class="image">
+                <!-- 이미지 추가 시 여기에 <img src="이미지 URL" alt="포켓몬 이름"> -->
+                <span>
+                    <img src="<?=$poket['pokemon_image_url']?>" alt="<?=$poket['pokemon_name_kr']?>"  draggable="false">
+                </span>
+            </div>
+            <div class="names">
+                <div class="korean-name"><?=$poket['pokemon_name_kr']?></div>
+                <div class="english-name"><?=ucfirst($poket['pokemon_name'])?></div>
+            </div>
         </div>
-        <div class="names">
-            <div class="korean-name"><?=$poket['pokemon_name_kr']?></div>
-            <div class="english-name"><?=ucfirst($poket['pokemon_name'])?></div>
-        </div>
-    </div>
+    </a>    
 <?php
     $count++;
 }
