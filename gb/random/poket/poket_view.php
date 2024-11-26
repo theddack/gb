@@ -17,6 +17,14 @@ $sql_select2 = "SELECT a.pokemon_image_idx AS 'pokemon_idx', a.pokemon_slot AS '
                 WHERE a.pokemon_image_idx=". $p_idx;
 $rs2 = sql_query($sql_select2);
 
+
+$sql_select3 = "SELECT idx, pokemon_abil_en, pokemon_abil_kr, pokemon_abil_url, pokemon_image_idx FROM pokemon_abil_list WHERE pokemon_image_idx=". $p_idx;
+$rs3 = sql_query($sql_select3);
+
+
+$sql_select4 = "SELECT idx, pokemon_move_en, pokemon_move_kr,pokemon_move_url, pokemon_image_idx FROM pokemon_moves_list WHERE pokemon_image_idx=". $p_idx;
+$rs4 = sql_query($sql_select4);
+
 ?>
 <head>
     <meta charset="UTF-8">
@@ -212,6 +220,27 @@ $rs2 = sql_query($sql_select2);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.3); /* 눌리는 효과 */
         background-color: #e67e22; /* 클릭 시 더 어두운 배경색 */
     }
+
+    .slot-machine {
+        width: 300px;
+        height: 106px; /* 보이는 영역 */
+        overflow: hidden;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .slot-item {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .slot-machine .slot-item:last-child {
+        border-bottom: none;
+    }
+
     </style>
 </head>
 <body>
@@ -237,30 +266,43 @@ $rs2 = sql_query($sql_select2);
         </div>
         <audio id="audio" class="audio" src="<?=$rs['pokemon_sound'] ?>" > </audio>
         <div class="types">
-<?php
-
-
-foreach ($rs2 as $rsd) {
+<?php      
+        foreach ($rs2 as $rsd) {
 ?>
             <span class="<?=$rsd['pokemon_slot'] ?>" style="background-color: <?=$rsd['type_hex'] ?>;"><?=$rsd['type_kr'] ?></span>
 <?php
-}
+        }
 ?> 
 
         </div>
         <div class="moves">
-            <strong>Moves:</strong>
-            <ul>
-                <li>Tackle</li>
-                <li>Growl</li>
-                <li>Vine Whip</li>
-                <li>Giga Drain</li>
+            <strong>기술(Moves):</strong>
+            <ul class="slot-machine">
+<?php
+       foreach ($rs4 as $rsd3) { 
+?>        
+                <li class="slot-item"><?=$rsd3['pokemon_move_kr'] ?></li>
+
+<?php
+       }
+?>  
+
             </ul>
         </div>
-        <div class="stats">
-            <div class="stat">Ability: <strong>Overgrow</strong></div>
-            <div class="stat">Nature: <strong>Hardy</strong></div>
-            <div class="stat">Passive: <strong>Locked</strong></div>
+        <div class="stats">         
+            <div class="stat">특성(Ability): 
+                <strong>
+<?php
+        foreach ($rs3 as $rsd2) { 
+?>                      
+                    <?=$rsd2['pokemon_abil_kr'] ?>,  
+<?php
+        }
+?>                     
+                </strong>
+            </div>           
+            <div class="stat">성격(Nature): <strong>Hardy</strong></div>
+            <div class="stat">숨겨진 특성(Passive): <strong>Locked</strong></div>
         </div>
     </div>
 <script>
@@ -279,6 +321,38 @@ foreach ($rs2 as $rsd) {
 
     })
 
+    const slotMachine = document.querySelector('.slot-machine');
+const slotItems = document.querySelectorAll('.slot-item');
+
+let isDragging = false;
+let startY, scrollTop;
+
+slotMachine.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  startY = e.pageY - slotMachine.offsetTop;
+  scrollTop = slotMachine.scrollTop;
+});
+
+slotMachine.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+
+  const y = e.pageY - slotMachine.offsetTop;
+  const walk = (y - startY) * 1.5; // 드래그 감도 조정
+  slotMachine.scrollTop = scrollTop - walk;
+});
+
+slotMachine.addEventListener('mouseup', () => {
+  isDragging = false;
+
+  // 스냅 효과 적용
+  const itemHeight = 50; // 각 아이템 높이
+  const nearestItemIndex = Math.round(slotMachine.scrollTop / itemHeight);
+  slotMachine.scrollTop = nearestItemIndex * itemHeight;
+});
+
+slotMachine.addEventListener('mouseleave', () => {
+  isDragging = false;
+});
 </script>    
 </body>
 </html>
