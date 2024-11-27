@@ -1,7 +1,7 @@
 # gb
-mysql 최신, php 7.4, nginx 
-javascript 사용
-디자인 gpt 초안 도움, 그 이후 바탕으로 직접 수정
+백엔드 개발: PHP API 설계 및 DB 구축, MySQL 쿼리 최적화
+프론트엔드 작업: JavaScript와 AJAX를 활용한 실시간 인터페이스 구현
+서버 구성: Nginx 기반 배포 환경 설정
 
 영화 top 10 리스트 페이지
 영화 전일 기준으로 TOP 10 페이지 매출과 관객수
