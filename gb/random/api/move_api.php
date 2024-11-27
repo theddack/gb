@@ -1,7 +1,7 @@
 <?php
 include('../../common.php'); 
 
-/* 기술 */
+/* 기술 
 
 try {
     $poke_data = true;
@@ -44,5 +44,5 @@ try {
     echo "데이터베이스 오류: " . $e->getMessage();
 }     
 
-
+*/
 ?>

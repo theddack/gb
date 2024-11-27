@@ -32,8 +32,9 @@ foreach($row2 as $data) {
     } else {
         echo "데이터 삽입에 실패했습니다.<br>";
     }
-*/
 }
+*/
+
 
 
 

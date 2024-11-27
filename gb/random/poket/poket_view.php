@@ -22,9 +22,12 @@ $sql_select3 = "SELECT idx, pokemon_abil_en, pokemon_abil_kr, pokemon_abil_url, 
 $rs3 = sql_query($sql_select3);
 
 
-$sql_select4 = "SELECT idx, pokemon_move_en, pokemon_move_kr,pokemon_move_url, pokemon_image_idx FROM pokemon_moves_list WHERE pokemon_image_idx=". $p_idx;
+$sql_select4 = "SELECT idx, pokemon_move_en, pokemon_move_kr, pokemon_move_url, pokemon_image_idx FROM pokemon_moves_list WHERE pokemon_image_idx=". $p_idx;
 $rs4 = sql_query($sql_select4);
 
+
+$sql_select5 = "SELECT pokemon_natur_kr, pokemon_natur_en FROM pokemon_nature ORDER BY RAND() LIMIT 1;";
+$rs5 = sql_fetch($sql_select5);
 ?>
 <head>
     <meta charset="UTF-8">
@@ -174,7 +177,6 @@ $rs4 = sql_query($sql_select4);
     }
 
     .pagination-button::before {
-        content: "";
         position: absolute;
         width: 10px;
         height: 10px;
@@ -279,12 +281,12 @@ $rs4 = sql_query($sql_select4);
             <strong>기술(Moves):</strong>
             <ul class="slot-machine">
 <?php
-       foreach ($rs4 as $rsd3) { 
+                foreach ($rs4 as $rsd3) { 
 ?>        
-                <li class="slot-item"><?=$rsd3['pokemon_move_kr'] ?></li>
+                    <li class="slot-item"><?=$rsd3['pokemon_move_kr'] ?></li>
 
 <?php
-       }
+                }
 ?>  
 
             </ul>
@@ -293,66 +295,63 @@ $rs4 = sql_query($sql_select4);
             <div class="stat">특성(Ability): 
                 <strong>
 <?php
-        foreach ($rs3 as $rsd2) { 
+                    foreach ($rs3 as $rsd2) { 
 ?>                      
-                    <?=$rsd2['pokemon_abil_kr'] ?>,  
+                        <?=$rsd2['pokemon_abil_kr'] ?>,  
 <?php
-        }
+                    }
 ?>                     
                 </strong>
             </div>           
-            <div class="stat">성격(Nature): <strong>Hardy</strong></div>
+            <div class="stat">
+                성격(Nature): 
+                <strong>
+                    <?=$rs5['pokemon_natur_kr']?> [<?=$rs5['pokemon_natur_en'] ?>]
+                </strong>
+            </div>
             <div class="stat">숨겨진 특성(Passive): <strong>Locked</strong></div>
         </div>
     </div>
 <script>
-    const image =  document.getElementById('image');
-    const audio = document.getElementById('audio');
-
-
-
-    image.addEventListener('click', () => {
-
-        audio.play();
-
-        image.id = "image_gif";
-        image.src = "<?=$rs['pokemon_animated'] ?>";
-
-
-    })
-
-    const slotMachine = document.querySelector('.slot-machine');
+const image =  document.getElementById('image');
+const audio = document.getElementById('audio');
+const slotMachine = document.querySelector('.slot-machine');
 const slotItems = document.querySelectorAll('.slot-item');
-
 let isDragging = false;
 let startY, scrollTop;
 
+
+image.addEventListener('click', () => {
+    audio.play();
+    image.id = "image_gif";
+    image.src = "<?=$rs['pokemon_animated'] ?>";
+})
+
 slotMachine.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  startY = e.pageY - slotMachine.offsetTop;
-  scrollTop = slotMachine.scrollTop;
+    isDragging = true;
+    startY = e.pageY - slotMachine.offsetTop;
+    scrollTop = slotMachine.scrollTop;
 });
 
 slotMachine.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
-
-  const y = e.pageY - slotMachine.offsetTop;
-  const walk = (y - startY) * 1.5; // 드래그 감도 조정
-  slotMachine.scrollTop = scrollTop - walk;
+    if (!isDragging) return;
+    const y = e.pageY - slotMachine.offsetTop;
+    const walk = (y - startY) * 1.5; // 드래그 감도 조정
+    slotMachine.scrollTop = scrollTop - walk;
 });
 
 slotMachine.addEventListener('mouseup', () => {
-  isDragging = false;
-
+    isDragging = false;
   // 스냅 효과 적용
-  const itemHeight = 50; // 각 아이템 높이
-  const nearestItemIndex = Math.round(slotMachine.scrollTop / itemHeight);
-  slotMachine.scrollTop = nearestItemIndex * itemHeight;
+    const itemHeight = 50; // 각 아이템 높이
+    const nearestItemIndex = Math.round(slotMachine.scrollTop / itemHeight);
+    slotMachine.scrollTop = nearestItemIndex * itemHeight;
 });
 
 slotMachine.addEventListener('mouseleave', () => {
-  isDragging = false;
+    isDragging = false;
 });
+
 </script>    
 </body>
 </html>
