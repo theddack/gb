@@ -7,7 +7,7 @@ $sql_count = "SELECT COUNT(idx) as total FROM pokemon_image";
 $total_count = sql_fetch($sql_count);
 
 
-$sql_select = "SELECT idx, pokemon_name, pokemon_name_kr, pokemon_sound, pokemon_image_url, pokemon_animated FROM pokemon_image WHERE idx=". $p_idx;
+$sql_select = "SELECT idx, pokemon_name, pokemon_name_kr, pokemon_sound, pokemon_image_url, pokemon_animated, pokemon_flavor_text FROM pokemon_image WHERE idx=". $p_idx;
 $rs = sql_fetch($sql_select);
 
 $sql_select2 = "SELECT a.pokemon_image_idx AS 'pokemon_idx', a.pokemon_slot AS 'pokemon_slot', b.type_kr AS 'type_kr', b.type_hex AS 'type_hex'
@@ -242,7 +242,35 @@ $rs5 = sql_fetch($sql_select5);
     .slot-machine .slot-item:last-child {
         border-bottom: none;
     }
-
+    .moving-banner {
+            position: absolute;
+            bottom: 0px; /* 이미지 밑에 띠 위치 */
+            width: 101%;
+            height: 18px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: nowrap; /* 한 줄 유지 */
+            left: -2px;
+            border-radius: 4px;
+        }
+        .banner-text {
+            display: inline-block;
+            padding-left: 100%; /* 오른쪽에서 시작 */
+            animation: moveBanner 10s linear infinite;
+        }
+        .banner-text::after {
+            content: " "; /* 여백 추가로 자연스러운 연결감 */
+        }
+        @keyframes moveBanner {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }        
     </style>
 </head>
 <body>
@@ -266,6 +294,7 @@ $rs5 = sql_fetch($sql_select5);
         <div class="image">
             <img id="image" src="<?=$rs['pokemon_image_url'] ?>" alt="<?=$rs['pokemon_name_kr'] ?>"  style="cursor: pointer;"  draggable="false">
         </div>
+      
         <audio id="audio" class="audio" src="<?=$rs['pokemon_sound'] ?>" > </audio>
         <div class="types">
 <?php      
@@ -275,8 +304,12 @@ $rs5 = sql_fetch($sql_select5);
 <?php
         }
 ?> 
-
         </div>
+        <div class="moving-banner" style="background-color: <?=$rsd['type_hex'] ?>;">
+            <div class="banner-text" >
+                    <?=$rs['pokemon_flavor_text'] ?> <!-- 공백으로 연결 -->
+            </div>
+        </div>          
         <div class="moves">
             <strong>기술(Moves):</strong>
             <ul class="slot-machine">
@@ -284,11 +317,9 @@ $rs5 = sql_fetch($sql_select5);
                 foreach ($rs4 as $rsd3) { 
 ?>        
                     <li class="slot-item"><?=$rsd3['pokemon_move_kr'] ?></li>
-
 <?php
                 }
 ?>  
-
             </ul>
         </div>
         <div class="stats">         

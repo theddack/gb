@@ -1,7 +1,7 @@
 <?php
 include('../../common.php'); 
 
-/* 기술 
+/* 특성
 
 try {
     $poke_data = true;
