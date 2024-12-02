@@ -197,23 +197,23 @@ $rs5 = sql_fetch($sql_select5);
 
     .pagination-button.previous {
         text-align: left;
-        padding-left: 20px;
+        padding-left: 9px;
         top: 216px;
-        left: 795px;
+        left: 793px;
     }
 
     .pagination-button.next {
         text-align: right;
-        padding-right: 20px;
+        padding-right: 9px;
         top: 216px;        
-        right: 798px;
+        right: 793px;
     }
 
     .pagination-button.first {
         text-align: right;
-        padding-right: 0px;
+        padding-right: 4px;
         top: 216px;        
-        right: 907px;
+        right: 905px;
     }
 
     /* 클릭 시 효과 */
@@ -294,7 +294,6 @@ $rs5 = sql_fetch($sql_select5);
         <div class="image">
             <img id="image" src="<?=$rs['pokemon_image_url'] ?>" alt="<?=$rs['pokemon_name_kr'] ?>"  style="cursor: pointer;"  draggable="false">
         </div>
-      
         <audio id="audio" class="audio" src="<?=$rs['pokemon_sound'] ?>" > </audio>
         <div class="types">
 <?php      
