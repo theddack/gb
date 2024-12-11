@@ -2,8 +2,9 @@
 include('../../common.php'); 
 include('../key/seoul_key.php');
 
-$count = 108;
-$seoul_api_url = "http://swopenAPI.seoul.go.kr/api/subway/" . $seoul_key . "/json/realtimePosition/0/" . $count . "/1호선"; //열차
+$count = 102;
+$train_value = 15;
+$seoul_api_url = "http://swopenAPI.seoul.go.kr/api/subway/" . $seoul_key . "/json/realtimePosition/0/" . $train_value . "/1호선"; //열차
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $seoul_api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -12,6 +13,7 @@ curl_close($ch);
 $data = json_decode($re, true);
 
 $seoul_station_url = "http://openapi.seoul.go.kr:8088/" . $seoul_key . "/json/SearchSTNBySubwayLineInfo/1/" . $count . "///1호선"; // 지하철역 이름
+echo $seoul_station_url;
 $ch1 = curl_init();
 curl_setopt($ch1, CURLOPT_URL, $seoul_station_url);
 curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
@@ -59,16 +61,17 @@ $data1 = json_decode($re1, true);
     text-align: center;
     line-height: 50px;
     color: white;
-    margin: 0 15px;
 }
 
 .train {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background: #ff5733;
     border-radius: 50%;
+    line-height: 40px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
 </style>
@@ -76,11 +79,26 @@ $data1 = json_decode($re1, true);
     <div class="tracker">
         <div class="line">
 <?php
+$train_row = $data1['SearchSTNBySubwayLineInfo']['row'];
 
-if(isset($data1['SearchSTNBySubwayLineInfo']['row'])){
-    foreach($data1['SearchSTNBySubwayLineInfo']['row'] as $index1 => $train){ 
+if(isset($train_row)){
+
+    usort($train_row, function($a, $b) {
+        // FR_CODE에서 숫자만 추출
+        $codeA = preg_replace('/[^0-9]/', '', $a['FR_CODE']);
+        $codeB = preg_replace('/[^0-9]/', '', $b['FR_CODE']);
+        
+        // 숫자로 변환하여 비교
+        $numA = intval($codeA);
+        $numB = intval($codeB);
+        
+        // 숫자 비교 결과 반환
+        return $numA - $numB;
+    });
+    
+    foreach($train_row as $index1 => $train){ 
 ?>
-        <div class="station" id="station<?=$index1?>"> <?=$train['STATION_NM'] ?></div>
+        <div class="station" id="station<?=$index1?>"> <?=$train['STATION_NM'] ?> <?=$train['FR_CODE'] ?></div>
 <?php
     } 
 }
@@ -90,11 +108,15 @@ if(isset($data1['SearchSTNBySubwayLineInfo']['row'])){
 
         <?php
 if(isset($data['realtimePositionList'])){
+
     foreach($data['realtimePositionList'] as $index => $train1){ 
+        $statnId = substr( $train1['statnId'], -4);
+
 ?>        
         <!-- 열차 -->
         <div class="train" id="train<?=$index?>"><?=$train1['trainNo'] ?></div>
 <?php
+
     }   
 }
 ?>
@@ -138,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const currentStation = stations[train.currentStation - 1];
             
             if (currentStation) {
-                trainElement.style.left = `${currentStation.offsetLeft}px`;
+                    trainElement.style.left = `${currentStation.offsetLeft}px`;
             }
         });
     }, 5000); // 5초마다 업데이트
