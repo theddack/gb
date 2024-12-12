@@ -123,46 +123,52 @@ if(isset($data['realtimePositionList'])){
     </div>
 </body>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    let s_count = "<?=$count?>";
-    // 열차 데이터 (API에서 가져온 데이터로 대체)
-    const trains = [];
-    for (let i=0; i<=s_count; i++){
-        trains.push (  { id: `train${i}`, currentStation:`${i}` });
-    }
+document.addEventListener("DOMContentLoaded", async () => {
+    const stations = document.querySelectorAll(".station"); // 역 DOM 요소
+    const trainElements = {}; // 열차 DOM 요소를 캐싱
 
-    // 역 DOM 요소들
-    const stations = document.querySelectorAll(".station");
-
-    // 열차 위치 업데이트
-    trains.forEach(train => {
-        const trainElement = document.getElementById(train.id);
-        const currentStation = stations[train.currentStation - 1]; // 현재 역 ID 기반으로 찾기
-
-        if (currentStation) {
-            if(!currentStation.offsetLeft){
-                trainElement.style.left = `${currentStation.offsetLeft}px`;
-            }
-
-        }
+    // 초기 열차 DOM 캐싱
+    document.querySelectorAll(".train").forEach(train => {
+        trainElements[train.id] = train;
     });
 
-    // 주기적으로 업데이트 (API에서 데이터 가져오는 부분과 연결)
-    setInterval(() => {
-        // API에서 새 데이터 가져오기 (여기서는 임의로 데이터 변경)
-        for (let i=0; i<=s_count; i++){
-            trains[i].currentStation = (trains[i].currentStation % s_count) + 1; // 다음 역으로 이동
-        }
-
-        // 열차 위치 다시 설정
-        trains.forEach(train => {
-            const trainElement = document.getElementById(train.id);
-            const currentStation = stations[train.currentStation - 1];
-            
-            if (currentStation) {
-                    trainElement.style.left = `${currentStation.offsetLeft}px`;
+    // 실시간 위치 데이터 가져오기
+    const fetchRealtimePositionData = async () => {
+        try {
+            const response = await fetch("<?=$seoul_station_url?>");
+            if (!response.ok) {
+                throw new Error(`HTTP 오류: ${response.status}`);
             }
-        });
-    }, 5000); // 5초마다 업데이트
+            const data = await response.json();
+            return data.realtimePositionList; // 실시간 열차 위치 배열 반환
+        } catch (error) {
+            console.error("실시간 열차 정보 가져오기 실패:", error.message);
+            return null;
+        }
+    };
+
+    // 열차 위치 갱신
+    const updateTrainPositions = async () => {
+        const trainData = await fetchRealtimePositionData();
+        if (trainData) {
+            trainData.forEach(train => {
+                const trainId = `train${train.trainNo}`; // 열차 ID 생성
+                const stationCode = train.statnId ? parseInt(train.statnId.slice(-4), 10) : null; // 역 코드 파싱
+
+                const trainElement = trainElements[trainId];
+                const stationElement = stations[stationCode - 1]; // 매핑된 역 DOM 요소
+
+                if (trainElement && stationElement) {
+                    trainElement.style.left = `${stationElement.offsetLeft}px`; // 열차 위치 업데이트
+                } else {
+                    console.warn(`열차 ${trainId} 또는 역 ${stationCode}를 찾을 수 없습니다.`);
+                }
+            });
+        }
+    };
+
+    // 주기적으로 위치 갱신
+    setInterval(updateTrainPositions, 5000); // 5초마다 위치 갱신
 });
+
 </script>    
