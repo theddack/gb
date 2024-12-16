@@ -22,7 +22,12 @@ $sql_select3 = "SELECT idx, pokemon_abil_en, pokemon_abil_kr, pokemon_abil_url, 
 $rs3 = sql_query($sql_select3);
 
 
-$sql_select4 = "SELECT idx, pokemon_move_en, pokemon_move_kr, pokemon_move_url, pokemon_image_idx FROM pokemon_moves_list WHERE pokemon_image_idx=". $p_idx;
+$sql_select4 = "SELECT a.idx, a.pokemon_move_en, a.pokemon_move_kr, a.pokemon_image_idx,
+                        b.pokemon_move_url, b.flavor_text
+                FROM pokemon_moves_list  as a
+                LEFT OUTER JOIN pokemon_moves_list2 as b
+                ON a.pokemon_move_en = b.pokemon_move_en
+                WHERE a.pokemon_image_idx=". $p_idx;
 $rs4 = sql_query($sql_select4);
 
 
