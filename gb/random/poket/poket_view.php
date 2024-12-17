@@ -23,7 +23,7 @@ $rs3 = sql_query($sql_select3);
 
 
 $sql_select4 = "SELECT a.idx, a.pokemon_move_en, a.pokemon_move_kr, a.pokemon_image_idx,
-                        b.pokemon_move_url, b.flavor_text
+                        b.pokemon_move_url, b.flavor_text 
                 FROM pokemon_moves_list  as a
                 LEFT OUTER JOIN pokemon_moves_list2 as b
                 ON a.pokemon_move_en = b.pokemon_move_en
@@ -39,117 +39,99 @@ $rs5 = sql_fetch($sql_select5);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포켓몬 도감 뷰어</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
 
-        .pokedex-card {
-            width: 300px;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            text-align: center;
-            position: relative;
-        }
+    .pokedex-card {
+        width: 300px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        text-align: center;
+        position: relative;
+    }
 
-        .pokedex-card .header {
-            font-weight: bold;
-            font-size: 16px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: #333;
-        }
+    .pokedex-card .header {
+        font-weight: bold;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: #333;
+    }
 
-        .pokedex-card .header .number {
-            color: #555;
-        }
+    .pokedex-card .header .number {
+        color: #555;
+    }
 
-        .pokedex-card .header .level {
-            color: #555;
-            font-size: 18px;
-        }
+    .pokedex-card .header .level {
+        color: #555;
+        font-size: 18px;
+    }
 
-        .pokedex-card .image {
-            margin: 10px 0;
-            background-color: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-        }
+    .pokedex-card .image {
+        margin: 10px 0;
+        background-color: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+    }
 
-        .pokedex-card .image img {
-            width: 100%;
-            height: auto;
-        }
+    .pokedex-card .image img {
+        width: 100%;
+        height: auto;
+    }
 
-        .pokedex-card .types {
-            margin: 10px 0;
-        }
+    .pokedex-card .types {
+        margin: 10px 0;
+    }
 
-        .pokedex-card .types span {
-            display: inline-block;
-            color: #fff;
-            padding: 3px 10px;
-            margin: 0 5px;
-            border-radius: 5px;
-            font-size: 12px;
-        }
+    .pokedex-card .types span {
+        display: inline-block;
+        color: #fff;
+        padding: 3px 10px;
+        margin: 0 5px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
 
-        .pokedex-card .types span.poison {
-            background-color: #a040a0;
-        }
+    .pokedex-card .types span.poison {
+        background-color: #a040a0;
+    }
 
-        .pokedex-card .moves {
-            margin-top: 10px;
-            text-align: left;
-            font-size: 12px;
-        }
 
-        .pokedex-card .moves ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    .pokedex-card .stats {
+        font-size: 14px;
+        margin-top: 15px;
+    }
 
-        .pokedex-card .moves li {
-            padding: 5px;
-            background-color: #f8f8f8;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
+    .pokedex-card .stats .stat {
+        margin-bottom: 5px;
+    }
 
-        .pokedex-card .stats {
-            font-size: 14px;
-            margin-top: 15px;
-        }
-
-        .pokedex-card .stats .stat {
-            margin-bottom: 5px;
-        }
-
-        #image_gif{
-            max-width: 100%;
-            max-height: 100%;
-            width: 111px;
-            height: 99px;
-            top: 56px;
-            left: 109px;  
-            object-fit: scale-down;   
-            position: absolute;
-            transform: scale(1.3);
-            filter: blur(0.4px);
-        }
+    #image_gif{
+        max-width: 100%;
+        max-height: 100%;
+        width: 111px;
+        height: 99px;
+        top: 56px;
+        left: 109px;  
+        object-fit: scale-down;   
+        position: absolute;
+        transform: scale(1.3);
+        filter: blur(0.4px);
+    }
     .pagination-button {
         position: absolute;
         width: 110PX;
@@ -201,23 +183,26 @@ $rs5 = sql_fetch($sql_select5);
     }
 
     .pagination-button.previous {
+        position: fixed;
         text-align: left;
         padding-left: 9px;
-        top: 216px;
+        top: 180px;
         left: 793px;
     }
 
     .pagination-button.next {
+        position: fixed;
         text-align: right;
         padding-right: 9px;
-        top: 216px;        
+        top: 180px;        
         right: 793px;
     }
 
     .pagination-button.first {
+        position: fixed;
         text-align: right;
         padding-right: 4px;
-        top: 216px;        
+        top: 180px;        
         right: 905px;
     }
 
@@ -228,54 +213,84 @@ $rs5 = sql_fetch($sql_select5);
         background-color: #e67e22; /* 클릭 시 더 어두운 배경색 */
     }
 
-    .slot-machine {
-        width: 300px;
-        height: 106px; /* 보이는 영역 */
+    .moving-banner {
+        position: absolute;
+        bottom: 0px; /* 이미지 밑에 띠 위치 */
+        width: 101%;
+        height: 18px;
+        color: #fff;
+        font-size: 14px;
+        line-height: 20px;
         overflow: hidden;
-        border: 2px solid #ddd;
-        border-radius: 10px;
+        white-space: nowrap; /* 한 줄 유지 */
+        left: -2px;
+        border-radius: 4px;
+    }
+    .banner-text {
+        display: inline-block;
+        padding-left: 100%; /* 오른쪽에서 시작 */
+        animation: moveBanner 10s linear infinite;
+    }
+    .banner-text::after {
+        content: " "; /* 여백 추가로 자연스러운 연결감 */
+    }
+    @keyframes moveBanner {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }        
+    .moves-section h3 {
+        font-size: 1.2em;
+        color: #444;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+    .move-list {
+        max-height: 150px; /* 스크롤 영역 높이 제한 */
+        overflow-y: auto; /* 세로 스크롤 */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        padding: 5px;
+    }
+    .move-item {
+        padding: 8px;
+        margin: 5px 0;
+        background-color: #f0f0f0;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-align: left;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .move-item:hover {
+        background-color: #e0e0e0;
         position: relative;
     }
 
-    .slot-item {
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
+    .move-item:hover::after {
+        content: attr(data-description); /* 툴팁 내용 */
+        position: absolute; /* 부모 기준으로 절대 위치 */
+        bottom: 10%; /* 바로 위에 표시 */
+        left: 60%; /* 가로 중앙 정렬 */
+        transform: translateX(-50%); /* 가운데 정렬 */
+        background: #333; /* 배경색 */
+        color: #fff; /* 글씨색 */
+        padding: 8px; /* 여백 */
+        border-radius: 6px; /* 둥근 모서리 */
+        white-space: normal; /* 자동 줄바꿈 */
+        width: 200px; /* 툴팁 너비 */
+        font-size: 0.7em; /* 글씨 크기 */
+        text-align: center; /* 글씨 중앙 정렬 */
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        z-index: 10; /* 다른 요소 위에 표시 */
     }
 
-    .slot-machine .slot-item:last-child {
-        border-bottom: none;
-    }
-    .moving-banner {
-            position: absolute;
-            bottom: 0px; /* 이미지 밑에 띠 위치 */
-            width: 101%;
-            height: 18px;
-            color: #fff;
-            font-size: 14px;
-            line-height: 20px;
-            overflow: hidden;
-            white-space: nowrap; /* 한 줄 유지 */
-            left: -2px;
-            border-radius: 4px;
-        }
-        .banner-text {
-            display: inline-block;
-            padding-left: 100%; /* 오른쪽에서 시작 */
-            animation: moveBanner 10s linear infinite;
-        }
-        .banner-text::after {
-            content: " "; /* 여백 추가로 자연스러운 연결감 */
-        }
-        @keyframes moveBanner {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }        
     </style>
 </head>
 <body>
@@ -314,17 +329,17 @@ $rs5 = sql_fetch($sql_select5);
                     <?=$rs['pokemon_flavor_text'] ?> <!-- 공백으로 연결 -->
             </div>
         </div>          
-        <div class="moves">
-            <strong>기술(Moves):</strong>
-            <ul class="slot-machine">
+        <div class="moves-section">
+            <h3>기술(Moves):</h3>
+            <div class="move-list">
 <?php
                 foreach ($rs4 as $rsd3) { 
 ?>        
-                    <li class="slot-item"><?=$rsd3['pokemon_move_kr'] ?></li>
+                    <div class="move-item" data-description="<?=$rsd3['flavor_text'] ?>"><?=$rsd3['pokemon_move_kr'] ?></div>
 <?php
                 }
 ?>  
-            </ul>
+            </div>
         </div>
         <div class="stats">         
             <div class="stat">특성(Ability): 
@@ -350,10 +365,6 @@ $rs5 = sql_fetch($sql_select5);
 <script>
 const image =  document.getElementById('image');
 const audio = document.getElementById('audio');
-const slotMachine = document.querySelector('.slot-machine');
-const slotItems = document.querySelectorAll('.slot-item');
-let isDragging = false;
-let startY, scrollTop;
 
 
 image.addEventListener('click', () => {
@@ -362,30 +373,6 @@ image.addEventListener('click', () => {
     image.src = "<?=$rs['pokemon_animated'] ?>";
 })
 
-slotMachine.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startY = e.pageY - slotMachine.offsetTop;
-    scrollTop = slotMachine.scrollTop;
-});
-
-slotMachine.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const y = e.pageY - slotMachine.offsetTop;
-    const walk = (y - startY) * 1.5; // 드래그 감도 조정
-    slotMachine.scrollTop = scrollTop - walk;
-});
-
-slotMachine.addEventListener('mouseup', () => {
-    isDragging = false;
-  // 스냅 효과 적용
-    const itemHeight = 50; // 각 아이템 높이
-    const nearestItemIndex = Math.round(slotMachine.scrollTop / itemHeight);
-    slotMachine.scrollTop = nearestItemIndex * itemHeight;
-});
-
-slotMachine.addEventListener('mouseleave', () => {
-    isDragging = false;
-});
 
 </script>    
 </body>
