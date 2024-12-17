@@ -47,6 +47,7 @@ $rs5 = sql_fetch($sql_select5);
         align-items: center;
         height: 100vh;
         margin: 0;
+        position: relative; /* 다른 요소에 영향을 최소화 */
     }
 
     .pokedex-card {
@@ -69,23 +70,22 @@ $rs5 = sql_fetch($sql_select5);
         color: #333;
     }
 
-    .pokedex-card .header .number {
+    .pokedex-card .header .number,
+    .pokedex-card .header .level {
         color: #555;
     }
 
-    .pokedex-card .header .level {
-        color: #555;
+    .pokedex-card .header .level{
         font-size: 18px;
     }
 
     .pokedex-card .image {
-        margin: 10px 0;
+        margin: 10px auto ;
         background-color: #eee;
         border-radius: 10px;
         overflow: hidden;
         width: 120px;
         height: 120px;
-        margin: 0 auto;
     }
 
     .pokedex-card .image img {
@@ -133,8 +133,9 @@ $rs5 = sql_fetch($sql_select5);
         filter: blur(0.4px);
     }
     .pagination-button {
-        position: absolute;
-        width: 110PX;
+        position: fixed; /* 화면 기준으로 고정 */
+        top: 19%; /* 세로 중앙 정렬 */
+        width: 110px;
         height: 50px;
         border: 2px solid #ccc;
         border-radius: 10px;
@@ -147,6 +148,7 @@ $rs5 = sql_fetch($sql_select5);
         font-weight: bold;
         font-size: 16px;
         transition: transform 0.2s ease, background-color 0.3s ease;
+
     }
 
     .pokedex-entry:hover,
@@ -179,31 +181,20 @@ $rs5 = sql_fetch($sql_select5);
     }
 
     .pagination-button span {
-        position: relative;
+        position: absolute;
     }
 
     .pagination-button.previous {
-        position: fixed;
-        text-align: left;
-        padding-left: 9px;
-        top: 180px;
         left: 793px;
+
     }
 
     .pagination-button.next {
-        position: fixed;
-        text-align: right;
-        padding-right: 9px;
-        top: 180px;        
-        right: 793px;
+        right: 794px;
     }
 
     .pagination-button.first {
-        position: fixed;
-        text-align: right;
-        padding-right: 4px;
-        top: 180px;        
-        right: 905px;
+        left: 905px;
     }
 
     /* 클릭 시 효과 */
@@ -226,14 +217,17 @@ $rs5 = sql_fetch($sql_select5);
         left: -2px;
         border-radius: 4px;
     }
+
     .banner-text {
         display: inline-block;
         padding-left: 100%; /* 오른쪽에서 시작 */
         animation: moveBanner 10s linear infinite;
     }
+
     .banner-text::after {
         content: " "; /* 여백 추가로 자연스러운 연결감 */
     }
+
     @keyframes moveBanner {
         0% {
             transform: translateX(0%);
@@ -242,6 +236,7 @@ $rs5 = sql_fetch($sql_select5);
             transform: translateX(-100%);
         }
     }        
+
     .moves-section h3 {
         font-size: 1.2em;
         color: #444;
@@ -256,6 +251,7 @@ $rs5 = sql_fetch($sql_select5);
         background-color: #f9f9f9;
         padding: 5px;
     }
+
     .move-item {
         padding: 8px;
         margin: 5px 0;
@@ -290,7 +286,16 @@ $rs5 = sql_fetch($sql_select5);
         box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
         z-index: 10; /* 다른 요소 위에 표시 */
     }
-
+    
+    @media screen and (max-width: 768px) {
+    .pagination-button.previous,
+    .pagination-button.next,
+    .pagination-button.first {
+        top: 150px; /* 좁은 화면에서는 위치 조정 */
+        left: 10px; /* 왼쪽 여백 줄이기 */
+        right: 10px;
+    }
+}
     </style>
 </head>
 <body>
