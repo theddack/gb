@@ -159,10 +159,6 @@ $rs = sql_query($sql_select);
         background-color: #d35400; /* 더 어두운 색상 */
     }
 
-    .pagination-button span {
-        position: relative;
-    }
-
     .pagination-button.previous {
         text-align: left;
         padding-left: 20px;
