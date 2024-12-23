@@ -256,27 +256,22 @@ $rs = sql_query($sql_select);
 
 <body>
 <div class="pagination">
-<?php 
-    if($page < $total_page && !$search){
-?>
     <form method="get" style="display: inline;">
         <input type="hidden" name="page" value="<?=$page - 1 ?>">
         <button type="submit" class="pagination-button previous" id="previous" <?=$page <= 1 ? 'disabled' : '' ?>>이전</button>
-    </form>
+    </form>    
+<?php 
+    if($page < $total_page && !$search){
+?>
     <form method="get" style="display: inline;">
         <input type="hidden" name="page" value="<?=$page + 1 ?>">
         <button type="submit" class="pagination-button next" id="next" <?=$page >= $total_page ? 'disabled' : '' ?>>다음</button>
     </form>
 <? } else { ?>
     <form method="get" style="display: inline;">
-        <input type="hidden" name="page" value="<?=$page - 1 ?>">
-        <button type="submit" class="pagination-button previous" id="previous" <?=$page <= 1 ? 'disabled' : '' ?>>이전</button>
-    </form>    
-    <form method="get" style="display: inline;">
         <input type="hidden" name="page" value="1">
         <button type="submit" class="pagination-button first" >처음으로</button>
     </form>
-
 <? } ?>
 
 </div>
