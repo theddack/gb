@@ -3,8 +3,11 @@ include('../../common.php');
 include('../key/seoul_key.php');
 
 $count = 102;
-$train_value = 15;
-$seoul_api_url = "http://swopenAPI.seoul.go.kr/api/subway/" . $seoul_key . "/json/realtimePosition/0/" . $train_value . "/1호선"; //열차
+$train_value = 6;
+$hosun = "1호선";
+
+$seoul_api_url = "http://swopenAPI.seoul.go.kr/api/subway/" . $seoul_key . "/json/realtimePosition/0/" . $train_value . "/" . urldecode($hosun); //열차
+echo $seoul_api_url;
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $seoul_api_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -12,14 +15,14 @@ $re = curl_exec($ch);
 curl_close($ch);
 $data = json_decode($re, true);
 
-$seoul_station_url = "http://openapi.seoul.go.kr:8088/" . $seoul_key . "/json/SearchSTNBySubwayLineInfo/1/" . $count . "///1호선"; // 지하철역 이름
-echo $seoul_station_url;
+$seoul_station_url = "http://openapi.seoul.go.kr:8088/" . $seoul_key . "/json/SearchSTNBySubwayLineInfo/1/" . $count . "///" . urldecode($hosun); //열차
+
 $ch1 = curl_init();
 curl_setopt($ch1, CURLOPT_URL, $seoul_station_url);
 curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
 $re1 = curl_exec($ch1);
 curl_close($ch1);
-$data1 = json_decode($re1, true);
+$data1 = json_decode($re1, true);                  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,13 +111,10 @@ if(isset($train_row)){
 
         <?php
 if(isset($data['realtimePositionList'])){
-
     foreach($data['realtimePositionList'] as $index => $train1){ 
         $statnId = substr( $train1['statnId'], -4);
-
 ?>        
-        <!-- 열차 -->
-        <div class="train" id="train<?=$index?>"><?=$train1['trainNo'] ?></div>
+        <div class="train" id="train<?=$train1['trainNo']?>"><?=$train1['trainNo'] ?></div>
 <?php
 
     }   
@@ -132,43 +132,57 @@ document.addEventListener("DOMContentLoaded", async () => {
         trainElements[train.id] = train;
     });
 
+    console.log("역 요소 개수:", stations.length); // 디버깅: 역 개수 출력
+    console.log("열차 요소:", trainElements); // 디버깅: 열차 DOM 요소 확인
+
+
     // 실시간 위치 데이터 가져오기
     const fetchRealtimePositionData = async () => {
         try {
-            const response = await fetch("<?=$seoul_station_url?>");
+            const response = await fetch("<?=$seoul_api_url?>");
             if (!response.ok) {
                 throw new Error(`HTTP 오류: ${response.status}`);
             }
             const data = await response.json();
-            return data.realtimePositionList; // 실시간 열차 위치 배열 반환
+            console.log("실시간 위치 데이터:", data);
+            return data.realtimePositionList || []; // 데이터 반환 또는 빈 배열
         } catch (error) {
-            console.error("실시간 열차 정보 가져오기 실패:", error.message);
-            return null;
+            console.error("API 호출 실패:", error.message);
+            return []; // 호출 실패 시 빈 배열 반환
         }
     };
 
-    // 열차 위치 갱신
     const updateTrainPositions = async () => {
         const trainData = await fetchRealtimePositionData();
-        if (trainData) {
-            trainData.forEach(train => {
-                const trainId = `train${train.trainNo}`; // 열차 ID 생성
-                const stationCode = train.statnId ? parseInt(train.statnId.slice(-4), 10) : null; // 역 코드 파싱
 
-                const trainElement = trainElements[trainId];
-                const stationElement = stations[stationCode - 1]; // 매핑된 역 DOM 요소
-
-                if (trainElement && stationElement) {
-                    trainElement.style.left = `${stationElement.offsetLeft}px`; // 열차 위치 업데이트
-                } else {
-                    console.warn(`열차 ${trainId} 또는 역 ${stationCode}를 찾을 수 없습니다.`);
-                }
-            });
+        if (!trainData || trainData.length === 0) {
+            console.warn("trainData가 비어 있습니다.");
+            return;
         }
+
+        // trainData를 순회하며 열차 위치 업데이트
+        trainData.forEach(train => {
+            const trainId = `train${train.trainNo}`;
+            const stationCode = parseInt(train.statnId.slice(-4), 10);
+            const trainElement = trainElements[trainId];
+
+            const stationElement = [...stations].find(station =>
+                station.textContent.includes(stationCode)
+            );
+
+            if (trainElement && stationElement) {
+                const targetLeft = stationElement.offsetLeft;
+                trainElement.style.transition = "left 2s linear";
+                trainElement.style.left = `${targetLeft}px`;
+            } else {
+                console.warn(`열차 ${trainId} 또는 역 ${stationCode}를 찾을 수 없습니다.`);
+            }
+            
+        });
     };
 
     // 주기적으로 위치 갱신
-    setInterval(updateTrainPositions, 5000); // 5초마다 위치 갱신
+    setInterval(updateTrainPositions, 120000); // 5초마다 위치 갱신
 });
 
 </script>    

@@ -73,6 +73,7 @@ caption {
                     <th>전일 매출액</th>
                     <th>전일 관객수</th>
                     <th>전일 상영된 횟수</th>
+                    <th>누적 관객 수</th>
                 </tr>
         </thead>
         <tbody>
@@ -96,8 +97,9 @@ caption {
             <td><?=number_format($movie['salesAmt']) ?></td>
             <td><?=number_format($movie['audiCnt']) ?></td>
             <td><?=number_format($movie['showCnt']) ?></td>
+            <td><?=number_format($movie['audiAcc']) ?></td>
         </tr>    
-    <?php 
+     <?php 
 
         }
     }
