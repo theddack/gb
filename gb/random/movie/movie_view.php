@@ -143,7 +143,7 @@ $view = $data['movieInfoResult']['movieInfo'];
                 foreach($view['actors'] as $actor) {
             ?>
                     <a class="list" href="./movie_actor_view.php?peopleNm=<?=$actor['peopleNm']?>&filmoNames=<?=$view['movieNm']?>" ><?= $actor['peopleNm']?></a>,
-            <?php
+            <?php                                                                                                       
 
                 }   
             ?> 

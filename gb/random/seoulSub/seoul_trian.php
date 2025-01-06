@@ -94,7 +94,7 @@ if(isset($train_row)){
         // 숫자로 변환하여 비교
         $numA = intval($codeA);
         $numB = intval($codeB);
-        
+                                                                                                                                                                      
         // 숫자 비교 결과 반환
         return $numA - $numB;
     });
@@ -103,6 +103,7 @@ if(isset($train_row)){
 ?>
         <div class="station" id="station<?=$index1?>"> <?=$train['STATION_NM'] ?> <?=$train['FR_CODE'] ?></div>
 <?php
+
     } 
 }
 ?>
@@ -177,7 +178,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 console.warn(`열차 ${trainId} 또는 역 ${stationCode}를 찾을 수 없습니다.`);
             }
-            
+
         });
     };
 

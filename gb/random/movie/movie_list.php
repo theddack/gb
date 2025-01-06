@@ -51,7 +51,7 @@ tr:hover {
 }
 
 caption {
-    caption-side: top;
+    caption-side: top; 
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 10px;
